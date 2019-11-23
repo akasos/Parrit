@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import api from '../../api'
 import * as actions from './index';
-import * as types from '../../constants/ActionTypes'
+import * as actionTypes from '../../constants/ActionTypes'
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -23,12 +23,12 @@ describe("async actions", () => {
             const request = moxios.requests.mostRecent();
             request.respondWith({
                 status: 200,
-               response: [{"id": 1, "name": "Austin"}]
+                response: [{"id": 1, "name": "Austin"}]
 
             });
         });
         const expectedActions = [
-            {type: types.LIST_OF_PEOPLE, payload: [{"id": 1, "name": "Austin"}]}
+            {type: actionTypes.LIST_OF_PEOPLE, payload: [{"id": 1, "name": "Austin"}]}
         ];
         const store = mockStore({listOfPeople: []});
 

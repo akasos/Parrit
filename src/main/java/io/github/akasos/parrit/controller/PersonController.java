@@ -1,7 +1,7 @@
 package io.github.akasos.parrit.controller;
 
 import io.github.akasos.parrit.model.Person;
-import io.github.akasos.parrit.model.PersonRepository;
+import io.github.akasos.parrit.dao.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +21,8 @@ public class PersonController {
         this.personRepository = personRepository;
     }
 
-    @GetMapping("/project")
+    @GetMapping(path = "/people", produces = "application/json")
     public List<Person> getAllPeople(){
-        System.out.println("hello");
        return  personRepository.findAll();
     };
 
