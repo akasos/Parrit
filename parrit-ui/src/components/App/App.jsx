@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { fetchPeople } from "../actions";
-import axios from '../../api/index';
 import styled from 'styled-components'
 import FloatingParrits from "../FloatingParrits/FloatingParrits";
 
@@ -38,7 +37,6 @@ flex-wrap: nowrap;
 const FloatingParritsContainer = styled.div``;
 
 const DottedLineContainer = styled.div``;
-
 
 class App extends Component {
 

@@ -3,7 +3,6 @@ import api from '../../api';
 
 export const fetchPeople = () => async dispatch => {
         const response = await api.get('/people');
-        console.log(response);
         dispatch(listOfPeople(response.data));
 };
 

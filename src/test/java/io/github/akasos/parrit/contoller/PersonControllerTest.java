@@ -3,44 +3,74 @@ package io.github.akasos.parrit.contoller;
 import io.github.akasos.parrit.controller.PersonController;
 import io.github.akasos.parrit.dao.PersonRepository;
 import io.github.akasos.parrit.model.Person;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(value = PersonController.class)
 public class PersonControllerTest {
 
-    @InjectMocks
-    PersonController personController;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     PersonRepository personRepository;
 
     @Test
-    public void getAllPeople(){
-        Person person1 = new Person("Austin");
-        Person person2 = new Person("Skyler");
-        Person person3 = new Person("Zach");
-        List<Person> listOfPeople = Arrays.asList(person1, person2, person3);
+    public void getAllPeople() throws Exception{
+        Person person1 = new Person(1L,"Austin");
+        List<Person> listOfPeople = Arrays.asList(person1);
 
-        when(personRepository.findAll()).thenReturn(listOfPeople);
+        Mockito.when(personRepository.findAll()).thenReturn(listOfPeople);
 
-        List<Person> results = personController.getAllPeople();
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/api/people")
+                .accept(MediaType.APPLICATION_JSON);
 
-        assertThat(results.size()).isEqualTo(3);
-        assertThat(results.get(0).getName()).isEqualTo("Austin");
-        assertThat(results.get(1).getName()).isEqualTo("Skyler");
-        assertThat(results.get(2).getName()).isEqualTo("Zach");
+        MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
+        String expected = "[{id: 1, name: Austin}]";
 
+        JSONAssert.assertEquals(expected, resultResponse.getResponse().getContentAsString(), false);
     }
 
+    @Test
+    public void addPerson() throws Exception {
+     Person person = new Person(1L,"Skyler");
+     Mockito.when(personRepository.save(Mockito.any())).thenReturn(person);
 
+     String examplePersonJson ="{\"id\": 1, \"name\": \"Skyler\"}";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/add")
+                .accept(MediaType.APPLICATION_JSON).content(examplePersonJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
+
+        MockHttpServletResponse response = resultResponse.getResponse();
+
+        System.out.println(response);
+
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+        assertEquals("/api/add/1", response.getHeader(HttpHeaders.LOCATION));
+    }
 }
