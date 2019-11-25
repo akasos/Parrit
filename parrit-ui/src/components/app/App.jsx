@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { fetchPeople } from "../actions";
 import styled from 'styled-components'
-import FloatingParrits from "../FloatingParrits/FloatingParrits";
+import FloatingParrits from "../floatingParrits/FloatingParrits";
 
 const LayoutWrapper = styled.div`
     display: flex;

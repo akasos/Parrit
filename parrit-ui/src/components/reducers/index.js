@@ -1,14 +1,14 @@
 import { combineReducers } from "redux";
-import * as types from '../../constants/ActionTypes'
+import * as actionTypes from '../../constants/ActionTypes'
 
-export const listOfPeople = (state = [], action) => {
-  if(action.type === types.LIST_OF_PEOPLE){
+export const listOfTeammates = (state = [], action) => {
+  if(action.type === actionTypes.LIST_OF_TEAMMATES){
     return action.payload;
   }
   return state;
 };
 
 export default combineReducers({
- listOfPeople
+ listOfTeammates
 })
 

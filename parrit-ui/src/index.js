@@ -4,7 +4,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
 import thunk from "redux-thunk";
 import reducers from './components/reducers';
-import App from './components/App/App'
+import App from './components/app/App'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

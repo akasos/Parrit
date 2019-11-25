@@ -1,1 +1,1 @@
-export const LIST_OF_PEOPLE = 'LIST_OF_PEOPLE';
+export const LIST_OF_TEAMMATES = 'LIST_OF_TEAMMATES';

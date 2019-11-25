@@ -3,12 +3,12 @@ import api from '../../api';
 
 export const fetchPeople = () => async dispatch => {
         const response = await api.get('/people');
-        dispatch(listOfPeople(response.data));
+        dispatch(listOfTeammates(response.data));
 };
 
-function listOfPeople(people = []){
+function listOfTeammates(people = []){
     return {
-        type: actionTypes.LIST_OF_PEOPLE,
+        type: actionTypes.LIST_OF_TEAMMATES,
         payload: people
     }
 }
