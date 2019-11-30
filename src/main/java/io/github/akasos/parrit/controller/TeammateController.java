@@ -14,22 +14,22 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class PersonController {
+public class TeammateController {
 
-    private final Logger log = LoggerFactory.getLogger(PersonController.class);
+    private final Logger log = LoggerFactory.getLogger(TeammateController.class);
     private PersonRepository personRepository;
 
-    public PersonController(PersonRepository personRepository){
+    public TeammateController(PersonRepository personRepository){
         this.personRepository = personRepository;
     }
 
-    @GetMapping(path = "/people", produces = "application/json")
-    public List<Person> getAllPeople(){
+    @GetMapping(path = "/teammates", produces = "application/json")
+    public List<Person> getAllTeammates(){
        return  personRepository.findAll();
     };
 
     @PostMapping(path = "/add", produces = "application/json")
-    public ResponseEntity<Person> addPerson(@Valid @RequestBody Person person) throws URISyntaxException {
+    public ResponseEntity<Person> addTeammate(@Valid @RequestBody Person person) throws URISyntaxException {
         Person temp = personRepository.save(person);
         return ResponseEntity.created(new URI("/api/add/" + temp.getId())).body(temp);
     }

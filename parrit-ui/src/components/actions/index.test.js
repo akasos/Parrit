@@ -17,8 +17,27 @@ describe("async actions", () => {
         moxios.uninstall(api);
     });
 
+    it('dispatch `ADD_TEAMMATE` when adding teammate is done', () => {
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: [{"id": 2, "name": "Skyler"}]
+            });
+        });
 
-    it('create `LIST_OF_PEOPLE` when fetching people is done', () => {
+        const newTeammate = {name: "Skyler"};
+        const expectedActions = [
+            {type: actionTypes.ADD_TEAMMATE, payload: [{"id": 2, "name": "Skyler"}]}
+        ];
+        const store = mockStore({listOfTeammates: []});
+        return store.dispatch(actions.addTeammmate(newTeammate)).then(() => {
+            // return of async actions
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+    });
+
+    it('dispatch `LIST_OF_TEAMMATES` when fetching teammates is done', () => {
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith({
@@ -28,14 +47,15 @@ describe("async actions", () => {
             });
         });
         const expectedActions = [
-            {type: actionTypes.LIST_OF_PEOPLE, payload: [{"id": 1, "name": "Austin"}]}
+            {type: actionTypes.LIST_OF_TEAMMATES, payload: [{"id": 1, "name": "Auseetin"}]}
         ];
         const store = mockStore({listOfPeople: []});
 
-        return store.dispatch(actions.fetchPeople()).then(() => {
+        return store.dispatch(actions.fetchTeammates()).then(() => {
             // return of async actions
             expect(store.getActions()).toEqual(expectedActions)
         });
 
     });
+
 });

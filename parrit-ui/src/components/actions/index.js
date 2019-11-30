@@ -1,17 +1,27 @@
 import * as actionTypes from "../../constants/ActionTypes";
 import api from '../../api';
 
-export const fetchPeople = () => async dispatch => {
-        const response = await api.get('/people');
+export const fetchTeammates = () => async dispatch => {
+        const response = await api.get('/teammates');
         dispatch(listOfTeammates(response.data));
 };
 
-function listOfTeammates(people = []){
+export const addTeammmate = (newTeammate) => async dispatch => {
+      const response = await api.post("/add", newTeammate);
+      dispatch(addTeammate(response.data));
+
+};
+
+function listOfTeammates(teammates = []){
     return {
         type: actionTypes.LIST_OF_TEAMMATES,
-        payload: people
+        payload: teammates
     }
 }
 
-
-
+function addTeammate(teammate ={}){
+    return {
+        type: actionTypes.ADD_TEAMMATE,
+        payload: teammate
+    }
+}

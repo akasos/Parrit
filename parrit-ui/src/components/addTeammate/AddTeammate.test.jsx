@@ -26,6 +26,23 @@ describe("Add Teammate", () => {
             component.find(".modal-container").simulate('click');
             expect(mock.cancel).toHaveBeenCalled();
         });
-    })
+
+        it('should call `cancel` prop when the cancel button is clicked', () => {
+            const mock = {cancel: jest.fn()};
+            const component = renderAddTeammateComponentShallow(mock);
+            component.find(".cancel-adding-teammate-button").simulate('click');
+            expect(mock.cancel).toHaveBeenCalled();
+
+        });
+    });
+    describe('addTeammate()', () => {
+       it('should call the the add func with the add button is clicked', () => {
+           jest.spyOn(AddTeammate.prototype, 'addTeammate');
+           const component = renderAddTeammateComponentShallow();
+           component.find(".add-teammate-button").simulate('click');
+           expect(AddTeammate.prototype.addTeammate).toHaveBeenCalled();
+           AddTeammate.prototype.addTeammate.mockRestore();
+       });
+    });
 
 });

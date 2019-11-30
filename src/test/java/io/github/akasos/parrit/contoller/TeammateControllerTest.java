@@ -1,6 +1,6 @@
 package io.github.akasos.parrit.contoller;
 
-import io.github.akasos.parrit.controller.PersonController;
+import io.github.akasos.parrit.controller.TeammateController;
 import io.github.akasos.parrit.dao.PersonRepository;
 import io.github.akasos.parrit.model.Person;
 import org.junit.Test;
@@ -27,8 +27,8 @@ import static org.junit.Assert.assertEquals;
 
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = PersonController.class)
-public class PersonControllerTest {
+@WebMvcTest(value = TeammateController.class)
+public class TeammateControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

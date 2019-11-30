@@ -1,1 +1,2 @@
 export const LIST_OF_TEAMMATES = 'LIST_OF_TEAMMATES';
+export const ADD_TEAMMATE = 'ADD_TEAMMATE';

@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Modal from '../../modal';
+
 const FloatingParritsContainer = styled.div``;
 const Title = styled.h3``;
 const PersonListContainer = styled.div``;
@@ -41,10 +43,15 @@ export class FloatingParrits extends Component {
     }
 }
 
+FloatingParrits.propTypes ={
+  listOfTeammatesREDUX: PropTypes.array.isRequired
+};
+
 const mapStateToProps = state => {
     return {
         listOfTeammatesREDUX: state.listOfTeammates
     };
 };
+
 
 export default connect(mapStateToProps)(FloatingParrits);
