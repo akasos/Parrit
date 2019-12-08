@@ -3,11 +3,26 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Modal from '../../modal';
+import Teammate from "../teammate/Teammate";
+import {Title} from "../../styles/Title";
+import {ButtonContainer} from "../../styles/ButtonContainer";
 
-const FloatingParritsContainer = styled.div``;
-const Title = styled.h3``;
-const PersonListContainer = styled.div``;
-const ButtonContainer = styled.div``;
+const FloatingParritsContainer = styled.div`
+display: flex;
+flex: 1;
+flex-direction: column;
+border: 10px solid red;
+`;
+
+const TeammatesContainer = styled.div`
+display: flex;
+flex-wrap: wrap;
+justify-content: space-evenly;
+border: 3px solid green;
+`;
+
+
+
 export const AddTeammateButton = styled.button``;
 
 export class FloatingParrits extends Component {
@@ -31,9 +46,9 @@ export class FloatingParrits extends Component {
         return (
             <FloatingParritsContainer>
                 <Title>Floating Parrits</Title>
-                <PersonListContainer>
-                    {listOfTeammatesREDUX.length > 0 &&  listOfTeammatesREDUX.map(people => <div key={people.id}>{people.name}</div>)}
-                </PersonListContainer>
+                <TeammatesContainer>
+                    {listOfTeammatesREDUX.length > 0 &&  listOfTeammatesREDUX.map(people => <Teammate key={people.id} name={people.name}/>)}
+                </TeammatesContainer>
                 <ButtonContainer>
                     <AddTeammateButton className="add-teammate-button" onClick={this.addTeammate}>Add Person</AddTeammateButton>
                     {isTeammateBeingAdded && <Modal className="modal" cancel={this.cancelAddingTeammate}/>}
