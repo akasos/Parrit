@@ -1,5 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {useDrop} from 'react-dnd'
+import ItemTypes from "../../constants/ItemTypes";
 import styled from 'styled-components';
+
+
 const BoardContainer = styled.div`
 display: inline-block;
 height: 200px;
@@ -8,13 +12,15 @@ border: 3px solid blue;
 `;
 
 
-class Board extends Component {
-    render() {
-        return (
-            <BoardContainer>
-            </BoardContainer>
-        );
-    }
-}
+const Board = (props) => {
+    const [, drop] = useDrop({
+        accept: ItemTypes.TEAMMATE
+    });
+    return (
+        <BoardContainer ref={drop}>
+            Test
+        </BoardContainer>
+    );
+};
 
 export default Board;

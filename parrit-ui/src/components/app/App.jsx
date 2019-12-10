@@ -7,6 +7,8 @@ import FloatingParrits from "../floatingParrits/FloatingParrits";
 import Header from "../header/Header";
 import SubHeader from "../subHeader/SubHeader";
 import PairingBoards from "../pairingBoards/PairingBoards";
+import {DndProvider} from "react-dnd";
+import Backend from 'react-dnd-html5-backend'
 
 const LayoutWrapper = styled.div`
     display: flex;
@@ -29,14 +31,17 @@ class App extends Component {
 
     render() {
         return (
-            <LayoutWrapper>
-                <Header/>
-                <SubHeader projectName="AVSchedule"/>
-                <WorkSpaceContainer>
-                    <FloatingParrits/>
-                    <PairingBoards/>
-                </WorkSpaceContainer>
-            </LayoutWrapper>
+            <DndProvider backend={Backend}>
+                <LayoutWrapper>
+                    <Header/>
+                    <SubHeader projectName="AVSchedule"/>
+                    <WorkSpaceContainer>
+                        <FloatingParrits/>
+                        <PairingBoards/>
+                    </WorkSpaceContainer>
+                </LayoutWrapper>
+            </DndProvider>
+
         );
     }
 }

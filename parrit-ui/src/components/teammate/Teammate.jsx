@@ -1,5 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {useDrag} from "react-dnd";
 import styled from 'styled-components'
+import ItemTypes from "../../constants/ItemTypes";
 
 const TeammateContainer = styled.div`
 display: inline-block;
@@ -8,17 +10,31 @@ margin: 20px;
 padding: 10px;
 background-color: aqua;
 border: 1px solid red;
+opacity: ${props => props.isDragging ? 0.5: 1.0};
 `;
 
 
-class Teammate extends Component {
-    render() {
-        return (
-        <TeammateContainer>
-           {this.props.name}
-        </TeammateContainer>
-        );
+const Teammate = (props) => {
+    const [{ isDragging, stringg }, drag] = useDrag({
+        item: { id: props.teammate.id, type: ItemTypes.TEAMMATE },
+        end(item, monitor){
+            if(monitor.didDrop()){
+            }
+        },
+        collect: monitor => ({
+            isDragging: monitor.isDragging(),
+        }),
+    });
+    const test = () =>{
+        console.log(stringg)
+        return '';
     }
-}
+    return (
+        <TeammateContainer ref={drag} isDragging={isDragging}>
+            {props.teammate.name}
+            <p>{test()}</p>
+        </TeammateContainer>
+    );
+};
 
 export default Teammate;

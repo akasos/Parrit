@@ -21,8 +21,6 @@ justify-content: space-evenly;
 border: 3px solid green;
 `;
 
-
-
 export const AddTeammateButton = styled.button``;
 
 export class FloatingParrits extends Component {
@@ -47,7 +45,7 @@ export class FloatingParrits extends Component {
             <FloatingParritsContainer>
                 <Title>Floating Parrits</Title>
                 <TeammatesContainer>
-                    {listOfTeammatesREDUX.length > 0 &&  listOfTeammatesREDUX.map(people => <Teammate key={people.id} name={people.name}/>)}
+                    {listOfTeammatesREDUX.length > 0 && listOfTeammatesREDUX.map(people => <Teammate key={people.id} teammate={people}/>)}
                 </TeammatesContainer>
                 <ButtonContainer>
                     <AddTeammateButton className="add-teammate-button" onClick={this.addTeammate}>Add Person</AddTeammateButton>
