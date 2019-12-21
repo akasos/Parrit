@@ -1,12 +1,14 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import AddTeammate from "./AddTeammate";
+import { AddTeammate } from "./AddTeammate";
 
 function renderAddTeammateComponentShallow(args) {
     const defaultProps = {
-        cancel: jest.fn()
+        cancel: jest.fn(),
+        addTeammate: jest.fn()
     };
-    return shallow(<AddTeammate {...{...defaultProps, ...args}} />)
+    const props = {...defaultProps, ...args};
+    return shallow(<AddTeammate {...props} />)
 }
 
 describe("Add Teammate", () => {
@@ -19,8 +21,8 @@ describe("Add Teammate", () => {
         })
     });
 
-    describe('cancel()', ()=> {
-        it('should call the `cancel` prop when the modal container is clicked',() => {
+    describe('cancel()', () => {
+        it('should call the `cancel` prop when the modal container is clicked', () => {
             const mock = {cancel: jest.fn()};
             const component = renderAddTeammateComponentShallow(mock);
             component.find(".modal-container").simulate('click');
@@ -36,13 +38,13 @@ describe("Add Teammate", () => {
         });
     });
     describe('addTeammate()', () => {
-       it('should call the the add func with the add button is clicked', () => {
-           jest.spyOn(AddTeammate.prototype, 'addTeammate');
-           const component = renderAddTeammateComponentShallow();
-           component.find(".add-teammate-button").simulate('click');
-           expect(AddTeammate.prototype.addTeammate).toHaveBeenCalled();
-           AddTeammate.prototype.addTeammate.mockRestore();
-       });
+        it('should call the the add func when the add button is clicked', () => {
+            jest.spyOn(AddTeammate.prototype, 'addTeammate');
+            const component = renderAddTeammateComponentShallow();
+            component.find(".add-teammate-button").simulate('click');
+            expect(AddTeammate.prototype.addTeammate).toHaveBeenCalled();
+            AddTeammate.prototype.addTeammate.mockRestore();
+        });
     });
 
 });

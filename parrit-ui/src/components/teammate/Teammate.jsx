@@ -15,7 +15,7 @@ opacity: ${props => props.isDragging ? 0.5: 1.0};
 
 
 const Teammate = (props) => {
-    const [{ isDragging, stringg }, drag] = useDrag({
+    const [{ isDragging, string }, drag] = useDrag({
         item: { id: props.teammate.id, type: ItemTypes.TEAMMATE },
         end(item, monitor){
             if(monitor.didDrop()){
@@ -26,7 +26,6 @@ const Teammate = (props) => {
         }),
     });
     const test = () =>{
-        console.log(stringg)
         return '';
     }
     return (

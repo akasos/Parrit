@@ -6,9 +6,9 @@ export const fetchTeammates = () => async dispatch => {
         dispatch(listOfTeammates(response.data));
 };
 
-export const addTeammmate = (newTeammate) => async dispatch => {
+export const addTeammate = (newTeammate) => async dispatch => {
       const response = await api.post("/add", newTeammate);
-      dispatch(addTeammate(response.data));
+      dispatch(processTeammate(response.data));
 
 };
 
@@ -19,7 +19,7 @@ function listOfTeammates(teammates = []){
     }
 }
 
-function addTeammate(teammate ={}){
+function processTeammate(teammate ={}){
     return {
         type: actionTypes.ADD_TEAMMATE,
         payload: teammate

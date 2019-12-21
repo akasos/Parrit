@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import Modal from '../../modal';
+import Button from "../button/Button";
+import Modal from '../../Modal/modal';
 import Teammate from "../teammate/Teammate";
+import AddTeammate from "../addTeammate/AddTeammate";
 import {Title} from "../../styles/Title";
 import {ButtonContainer} from "../../styles/ButtonContainer";
 
@@ -20,8 +22,6 @@ flex-wrap: wrap;
 justify-content: space-evenly;
 border: 3px solid green;
 `;
-
-export const AddTeammateButton = styled.button``;
 
 export class FloatingParrits extends Component {
 
@@ -48,8 +48,8 @@ export class FloatingParrits extends Component {
                     {listOfTeammatesREDUX.length > 0 && listOfTeammatesREDUX.map(people => <Teammate key={people.id} teammate={people}/>)}
                 </TeammatesContainer>
                 <ButtonContainer>
-                    <AddTeammateButton className="add-teammate-button" onClick={this.addTeammate}>Add Person</AddTeammateButton>
-                    {isTeammateBeingAdded && <Modal className="modal" cancel={this.cancelAddingTeammate}/>}
+                    <Button className="add-teammate-button" onClick={this.addTeammate} text="Add Person"/>
+                    {isTeammateBeingAdded && <Modal className="modal" domElement={document.querySelector("#modal")}><AddTeammate cancel={this.cancelAddingTeammate} /></Modal>}
                 </ButtonContainer>
             </FloatingParritsContainer>
         );

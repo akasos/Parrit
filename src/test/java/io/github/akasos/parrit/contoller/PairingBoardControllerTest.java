@@ -53,7 +53,6 @@ public class PairingBoardControllerTest {
 
         String expected = "[{\"id\": 1, \"title\": \"The Salt Mines\", \"teammates\": [{\"id\": 1, \"name\": \"Austin\", \"pairing_board_fk\": null}]}]";
 
-
         JSONAssert.assertEquals(expected, resultResponse.getResponse().getContentAsString(), false);
 
     }

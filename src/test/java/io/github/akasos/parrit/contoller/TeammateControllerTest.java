@@ -39,9 +39,9 @@ public class TeammateControllerTest {
     @Test
     public void getAllTeammates() throws Exception{
         Person person1 = new Person(1L,"Austin", null, null);
-        List<Person> listOfPeople = Arrays.asList(person1);
+        List<Person> listOfTeammates = Arrays.asList(person1);
 
-        Mockito.when(personRepository.findAll()).thenReturn(listOfPeople);
+        Mockito.when(personRepository.findAll()).thenReturn(listOfTeammates);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/api/teammates")

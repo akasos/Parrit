@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
-import {addTeammmate} from "../actions";
+import {addTeammate} from "../actions";
 import style from 'styled-components'
 const ModalContainer = style.div``;
 const AddTeamMateContainer = style.div``;
@@ -11,7 +11,7 @@ const AddTeammateInput = style.input``;
 const Button = style.button``;
 
 
-class AddTeammate extends Component {
+export class AddTeammate extends Component {
     constructor(props) {
         super(props)
         this.addTeammate = this.addTeammate.bind(this);
@@ -26,7 +26,7 @@ class AddTeammate extends Component {
     };
 
     addTeammate() {
-        this.props.addTeammmate(this.state);
+        this.props.addTeammate(this.state);
         this.props.cancel();
     };
 
@@ -52,7 +52,7 @@ class AddTeammate extends Component {
 
 AddTeammate.propTypes = {
     cancel: PropTypes.func.isRequired,
-    addTeammmate: PropTypes.func.isRequired
-}
+    addTeammate: PropTypes.func.isRequired
+};
 
-export default connect(null, {addTeammmate})(AddTeammate);
+export default connect(null, { addTeammate })(AddTeammate);
