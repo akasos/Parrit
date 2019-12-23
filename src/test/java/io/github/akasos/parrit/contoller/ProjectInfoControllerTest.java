@@ -57,8 +57,6 @@ public class ProjectInfoControllerTest {
 
         MockHttpServletResponse response = resultResponse.getResponse();
 
-        //System.out.println(response.getContentAsString());
-
         JSONAssert.assertEquals(expected, response.getContentAsString(), false);
 
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import {fetchTeammates} from "../actions";
+import {fetchProjectInfo} from "../actions";
 import styled from 'styled-components'
 import FloatingParrits from "../floatingParrits/FloatingParrits";
 import Header from "../header/Header";
@@ -26,7 +26,7 @@ const WorkSpaceContainer = styled.div`
 class App extends Component {
 
     async componentDidMount() {
-        this.props.fetchTeammates()
+        this.props.fetchProjectInfo();
     }
 
     render() {
@@ -47,14 +47,13 @@ class App extends Component {
 }
 
 App.propTypes = {
-    fetchTeammates: PropTypes.func.isRequired
+    fetchProjectInfo: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
     return {
-        listOfPeopleREDUX: state.listOfPeople
+        listOfTeammatesREDUX: state.listOfTeammates
     }
 };
 
-
-export default connect(mapStateToProps, {fetchTeammates})(App);
+export default connect(mapStateToProps, {fetchProjectInfo})(App);

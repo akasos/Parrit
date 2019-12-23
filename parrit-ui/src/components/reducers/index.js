@@ -12,7 +12,21 @@ export const listOfTeammates = (state = [], action) => {
     }
 };
 
+export const listOfPairingBoards = (state = [], action) => {
+    switch (action.type) {
+        case actionTypes.LIST_OF_PAIRING_BOARDS:
+            return action.payload;
+        case actionTypes.ADD_PAIRING_BOARD:
+            return [...state, action.payload];
+        default:
+            return state;
+    }
+};
+
+
+
 export default combineReducers({
-    listOfTeammates
+    listOfTeammates,
+    listOfPairingBoards
 })
 

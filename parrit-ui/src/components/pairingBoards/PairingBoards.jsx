@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components'
 import {Title} from '../../styles/Title'
 import {ButtonContainer} from "../../styles/ButtonContainer";
@@ -35,19 +37,33 @@ export class PairingBoards extends React.Component {
 
     render() {
         const {isPairingBoardBeingAdded} = this.state;
+        const {listOfPairingBoardsREDUX} = this.props;
         return (
             <PairingBoardsContainer>
                 <Title>Pairing Boards</Title>
                 <BoardsContainer>
-                    <Board/>
+                    {listOfPairingBoardsREDUX.length > 0 && listOfPairingBoardsREDUX.map(pairingBoard => <Board
+                        key={pairingBoard.id} pairingBoard={pairingBoard}/>)}
                 </BoardsContainer>
                 <ButtonContainer>
                     <Button className="add-pairing-board-button" onClick={this.addPairingBoard} text="Add Board"/>
                 </ButtonContainer>
-                {isPairingBoardBeingAdded && <Modal className="modal" domElement={document.querySelector("#modal")}><AddPairingBoard cancel={this.cancelAddingPairingBoard}/></Modal>}
+                {isPairingBoardBeingAdded &&
+                <Modal className="modal" domElement={document.querySelector("#modal")}><AddPairingBoard
+                    cancel={this.cancelAddingPairingBoard}/></Modal>}
             </PairingBoardsContainer>
         )
     }
 }
 
-export default PairingBoards;
+PairingBoards.propTypes = {
+    listOfPairingBoardsREDUX: PropTypes.array.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        listOfPairingBoardsREDUX: state.listOfPairingBoards
+    }
+};
+
+export default connect(mapStateToProps)(PairingBoards);

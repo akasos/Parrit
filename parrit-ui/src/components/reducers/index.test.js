@@ -1,11 +1,11 @@
-import {listOfPeople, listOfTeammates} from './index';
+import {listOfTeammates, listOfPairingBoards} from './index';
 import * as actionTypes from '../../constants/ActionTypes';
 
 describe('Reducers', () => {
 
-    describe('`listOfTeammates Reducer', () => {
+    describe('listOfTeammates Reducer', () => {
         it('should return the initial state', () => {
-            expect(listOfPeople(undefined, {})).toEqual([]);
+            expect(listOfTeammates(undefined, {})).toEqual([]);
         });
         it('should return an [] of teammates', () => {
             const action = {type: actionTypes.LIST_OF_TEAMMATES, payload: [{id: '1', name: 'Austin'}]};
@@ -19,6 +19,17 @@ describe('Reducers', () => {
             expect(listOfTeammates([{id: '1', name: 'Austin'}], action)).toEqual(expected);
         })
 
+    });
+
+    describe('listOfPairingBoards Reducer', () => {
+       it('should return the initial state', () => {
+          expect(listOfPairingBoards(undefined, {})).toEqual([]);
+       });
+       it('should return an [] of pairingBoards', () => {
+          const action = {type: actionTypes.LIST_OF_PAIRING_BOARDS, payload: [{id: 1, title: "Moon Base", teammates: [{id: 1, name: "Austin", pairing_board_fk: 1}]}]};
+          const expected = [{id: 1, title: "Moon Base", teammates: [{id: 1, name: "Austin", pairing_board_fk: 1}]}];
+          expect(listOfPairingBoards([], action)).toEqual(expected);
+       });
     });
 
 });

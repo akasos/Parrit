@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme'
 import { AddPairingBoard } from './AddPairingBoard';
-import {AddTeammate} from "../addTeammate/AddTeammate";
 
 function renderAddPairingBoard(args){
     const defaultProps = {};
@@ -15,7 +14,7 @@ describe("AddPairingBoard", () => {
     describe("onInputChange", () => {
         it("should set state property `title` to the inputted value", () => {
             const component = renderAddPairingBoard();
-            const input = component.find(".add-pairingboard-input");
+            const input = component.find(".add-pairing-board-input");
             input.simulate('change', {target: {value: "The Salt Mines"}});
             expect(component.state().title).toEqual("The Salt Mines");
         });
@@ -27,7 +26,7 @@ describe("AddPairingBoard", () => {
            const component = renderAddPairingBoard();
            component.find(".add-pairing-board-button").simulate('click');
            expect(AddPairingBoard.prototype.addPairingBoard).toHaveBeenCalled();
-           AddPairingBoard.prototype.addTeammate.mockRestore();
+           AddPairingBoard.prototype.addPairingBoard.mockRestore();
 
        }) ;
     });
