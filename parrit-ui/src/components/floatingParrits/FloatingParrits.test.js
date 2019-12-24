@@ -17,6 +17,7 @@ function renderFloatingParritsComponentMount(args){
 }
 
 describe('FloatingParrits', () => {
+
     describe('addTeammate()', () => {
         it('should set state property `isTeammateBeingAdded` to true when the add button is clicked', ()=> {
             const component = renderFloatingParritsComponentShallow();
@@ -35,4 +36,9 @@ describe('FloatingParrits', () => {
             expect(component.state('isTeammateBeingAdded')).toBe(false);
         })
     });
+
+    describe('removeTeammate()', () => {
+
+    });
+
 });

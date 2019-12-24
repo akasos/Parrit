@@ -27,7 +27,8 @@ const Teammate = (props) => {
     });
     const test = () =>{
         return '';
-    }
+    };
+
     return (
         <TeammateContainer ref={drag} isDragging={isDragging}>
             {props.teammate.name}

@@ -45,7 +45,7 @@ export class FloatingParrits extends Component {
             <FloatingParritsContainer>
                 <Title>Floating Parrits</Title>
                 <TeammatesContainer>
-                    {listOfTeammatesREDUX.length > 0 && listOfTeammatesREDUX.map(people => <Teammate key={people.id} teammate={people}/>)}
+                    {listOfTeammatesREDUX.length > 0 && listOfTeammatesREDUX.filter(people => people.pairing_board_fk === null).map(people => <Teammate key={people.id} teammate={people} />)}
                 </TeammatesContainer>
                 <ButtonContainer>
                     <Button className="add-teammate-button" onClick={this.addTeammate} text="Add Person"/>
