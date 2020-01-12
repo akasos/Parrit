@@ -1,6 +1,5 @@
 package io.github.akasos.parrit.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,21 +25,15 @@ public class PairingBoard {
     private String title;
 
     @OneToMany(mappedBy = "pairingBoard", cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH}, orphanRemoval = true)
-    @JsonManagedReference
+            CascadeType.DETACH, CascadeType.REFRESH} )
     private List<Person> teammates = new ArrayList<>();
-
-    public PairingBoard(Long id, String title){
-        this.id = id;
-        this.title = title;
-    }
 
     public void addTeammate(Person person){
         this.teammates.add(person);
         person.setPairingBoard(this);
     }
 
-    public void  removeTeammate(Person person){
+    public void removeTeammate(Person person){
         this.teammates.remove(person);
         person.setPairingBoard(null);
     }

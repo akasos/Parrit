@@ -38,7 +38,9 @@ public class TeammateControllerTest {
 
     @Test
     public void getAllTeammates() throws Exception{
-        Person person1 = new Person(1L,"Austin", null, null);
+        Person person1 = new Person("Austin");
+        person1.setId(1L);
+
         List<Person> listOfTeammates = Arrays.asList(person1);
 
         Mockito.when(personRepository.findAll()).thenReturn(listOfTeammates);
@@ -48,17 +50,20 @@ public class TeammateControllerTest {
                 .accept(MediaType.APPLICATION_JSON);
 
     MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
-        String expected = "[{id: 1, name: Austin, pairing_board_fk: null}]";
+        String expected = "[{id: 1, name: Austin, pairingBoard: null}]";
 
        JSONAssert.assertEquals(expected, resultResponse.getResponse().getContentAsString(), false);
     }
 
     @Test
     public void addTeammate() throws Exception {
-     Person person = new Person(1L,"Skyler", null, null);
+     Person person = new Person("Skyler");
+     person.setId(1L);
+
      Mockito.when(personRepository.save(person)).thenReturn(person);
 
      String examplePersonJson ="{\"id\": 1, \"name\": \"Skyler\"}";
+
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/api/teammates")
                 .accept(MediaType.APPLICATION_JSON).content(examplePersonJson)
@@ -74,13 +79,16 @@ public class TeammateControllerTest {
 
     @Test
     public void deleteTeammate() throws Exception {
-        Person person = new Person(1L, "Austin", null, null);
+        Person person = new Person("Austin");
+        person.setId(1L);
+
         Mockito.when(personRepository.findById(person.getId())).thenReturn(Optional.of(person));
-        Mockito.doNothing().when(personRepository).deleteById(Mockito.any());
+        Mockito.doNothing().when(personRepository).delete(Mockito.any());
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .delete("/api/teammates/{teammateId}", "1")
-                .accept(MediaType.APPLICATION_JSON);
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
 
             MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
 

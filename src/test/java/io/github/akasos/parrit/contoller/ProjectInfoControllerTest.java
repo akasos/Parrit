@@ -38,28 +38,32 @@ public class ProjectInfoControllerTest {
 
     @Test
     public void getProjectInfo() throws Exception {
-        PairingBoard pairingBoard = new PairingBoard(1L, "The Salt Mines");
-        Person person = new Person(1L, "Austin", null, 1L);
+        PairingBoard pairingBoard = new PairingBoard("The Salt Mines");
+        pairingBoard.setId(1L);
+
+        Person person = new Person("Austin");
+        person.setId(1L);
+        person.setPairingBoard(pairingBoard);
+
         pairingBoard.addTeammate(person);
         List<PairingBoard> listOfPairingBoards = Arrays.asList(pairingBoard);
         List<Person> listOfTeammates = Arrays.asList(person);
 
-        String expected = "{\"pairingBoardList\":[{\"id\":1,\"title\":\"The Salt Mines\",\"teammates\":[{\"id\": 1,\"name\":\"Austin\",\"pairing_board_fk\":1}]}],\"teammateList\":[{\"id\":1,\"name\":\"Austin\",\"pairing_board_fk\":1}]}";
+        String expected = "{\"pairingBoardList\":[{\"id\":1,\"title\":\"The Salt Mines\",\"teammates\":[{\"id\": 1,\"name\":\"Austin\",\"pairingBoard\":1}]}],\"teammateList\":[{\"id\":1,\"name\":\"Austin\",\"pairingBoard\":1}]}";
 
         Mockito.when(pairingBoardRepository.findAll()).thenReturn(listOfPairingBoards);
         Mockito.when(personRepository.findAll()).thenReturn(listOfTeammates);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/api/projectinfo")
-                .accept(MediaType.APPLICATION_JSON);
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
 
         MockHttpServletResponse response = resultResponse.getResponse();
 
         JSONAssert.assertEquals(expected, response.getContentAsString(), false);
-
-
 
     }
 

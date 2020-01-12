@@ -13,7 +13,7 @@ const Button = style.button``;
 
 export class AddTeammate extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.addTeammate = this.addTeammate.bind(this);
     }
 

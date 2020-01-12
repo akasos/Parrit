@@ -23,7 +23,7 @@ const WorkSpaceContainer = styled.div`
     border: 5px solid green;
 `;
 
-class App extends Component {
+export class App extends Component {
 
     async componentDidMount() {
         this.props.fetchProjectInfo();
@@ -41,7 +41,6 @@ class App extends Component {
                     </WorkSpaceContainer>
                 </LayoutWrapper>
             </DndProvider>
-
         );
     }
 }

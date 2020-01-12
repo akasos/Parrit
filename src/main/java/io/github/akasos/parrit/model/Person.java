@@ -1,6 +1,8 @@
 package io.github.akasos.parrit.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,19 +21,10 @@ public class Person {
     @NonNull
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH} )
-    @JoinColumn(name = "pairing_board_id")
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private PairingBoard pairingBoard;
-
-    @Column(name = "pairing_board_id", insertable = false, updatable = false)
-    private Long pairing_board_fk;
-
-
-    public Person(Long id,String name){
-        this.id = id;
-        this.name = name;
-    }
 
 }

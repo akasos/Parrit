@@ -8,6 +8,7 @@ import Teammate from "../teammate/Teammate";
 import AddTeammate from "../addTeammate/AddTeammate";
 import {Title} from "../../styles/Title";
 import {ButtonContainer} from "../../styles/ButtonContainer";
+import DeleteTeammate from "../deleteTeammate/DeleteTeammate";
 
 const FloatingParritsContainer = styled.div`
 display: flex;
@@ -17,14 +18,11 @@ border: 10px solid red;
 `;
 
 const TeammatesContainer = styled.div`
-display: flex;
-flex-wrap: wrap;
-justify-content: space-evenly;
+flex: 2;
 border: 3px solid green;
 `;
 
 export class FloatingParrits extends Component {
-
     state = {
       isTeammateBeingAdded: false
     };
@@ -45,11 +43,12 @@ export class FloatingParrits extends Component {
             <FloatingParritsContainer>
                 <Title>Floating Parrits</Title>
                 <TeammatesContainer>
-                    {listOfTeammatesREDUX.length > 0 && listOfTeammatesREDUX.filter(people => people.pairing_board_fk === null).map(people => <Teammate key={people.id} teammate={people} />)}
+                    {listOfTeammatesREDUX.length > 0 && listOfTeammatesREDUX.filter(people => people.pairingBoard === null).map(people => <Teammate key={people.id} teammate={people} />)}
                 </TeammatesContainer>
                 <ButtonContainer>
                     <Button className="add-teammate-button" onClick={this.addTeammate} text="Add Person"/>
                     {isTeammateBeingAdded && <Modal className="modal" domElement={document.querySelector("#modal")}><AddTeammate cancel={this.cancelAddingTeammate} /></Modal>}
+                    <DeleteTeammate/>
                 </ButtonContainer>
             </FloatingParritsContainer>
         );

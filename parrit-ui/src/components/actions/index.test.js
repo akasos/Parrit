@@ -17,46 +17,6 @@ describe("async actions", () => {
         moxios.uninstall(api);
     });
 
-    it('dispatch `ADD_TEAMMATE` when adding teammate is done', () => {
-        moxios.wait(() => {
-            const request = moxios.requests.mostRecent();
-            request.respondWith({
-                status: 200,
-                response: {"id": 2, "name": "Skyler", "pairing_board_fk": null}
-            });
-        });
-
-        const newTeammate = {name: "Skyler"};
-        const expectedActions = [
-            {type: actionTypes.ADD_TEAMMATE, payload: {"id": 2, "name": "Skyler", "pairing_board_fk": null}}
-        ];
-        const store = mockStore({listOfTeammates: []});
-        return store.dispatch(actions.addTeammate(newTeammate)).then(() => {
-            // return of async actions
-            expect(store.getActions()).toEqual(expectedActions)
-        });
-    });
-
-
-    it('dispatch `ADD_PAIRING_BOARD` when addPairingBoard is done', () => {
-        moxios.wait(() => {
-            const request = moxios.requests.mostRecent();
-            request.respondWith({
-                status: 200,
-                response: {"id": 1, "title": "The Moon Base", "teammates": []}
-            });
-        });
-
-        const newPairingBoard = {"title": "The Moon Base"}
-        const expectedActions = [{type: actionTypes.ADD_PAIRING_BOARD, payload: {"id": 1, "title": "The Moon Base", "teammates": []}}]
-
-        const store = mockStore({listOfPairingBoards: []});
-        return store.dispatch(actions.addPairingBoard(newPairingBoard)).then(() => {
-            // return of async actions
-            expect(store.getActions()).toEqual(expectedActions)
-        });
-
-    });
 
     it('dispatch `LIST_OF_TEAMMATES` when fetching teammates is done', () => {
         moxios.wait(() => {
@@ -70,7 +30,7 @@ describe("async actions", () => {
         const expectedActions = [
             {type: actionTypes.LIST_OF_TEAMMATES, payload: [{"id": 1, "name": "Austin"}]}
         ];
-        const store = mockStore({listOfPeople: []});
+        const store = mockStore();
 
         return store.dispatch(actions.fetchTeammates()).then(() => {
             // return of async action
@@ -79,31 +39,131 @@ describe("async actions", () => {
 
     });
 
-    it('dispatch `LIST_OF_TEAMS` && `LIST_OF_PAIRING_BOARDS` when fetching projectInfo is done', () => {
+
+    it('dispatch `ADD_TEAMMATE` when adding teammate is done', () => {
         moxios.wait(() => {
-           const request = moxios.requests.mostRecent();
-           request.respondWith({
-              status: 200,
-              response: {"pairingBoardList": [{"id": 1, "title": "Moon Base", "teammates":[{"id": 1, "name": "Austin", "pairing_board_fk": 1}]}],
-              "teammateList":[{"id": 1, "name": "Austin", "pairing_board_fk": 1}]}
-           });
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: {"id": 2, "name": "Skyler", "pairingBoard": null}
+            });
         });
 
+        const newTeammate = {name: "Skyler"};
         const expectedActions = [
-            {type: actionTypes.LIST_OF_TEAMMATES, payload: [{"id": 1, "name": "Austin", "pairing_board_fk": 1}]},
-            {type: actionTypes.LIST_OF_PAIRING_BOARDS, payload: [{"id": 1, "title": "Moon Base",
-                            "teammates": [{"id": 1, "name": "Austin", "pairing_board_fk": 1}]}]}
+            {type: actionTypes.ADD_TEAMMATE, payload: {"id": 2, "name": "Skyler", "pairingBoard": null}}
         ];
-
-        const store = mockStore({listOfTeammates: [], listOfPairingBoards: []});
-
-
-        return store.dispatch(actions.fetchProjectInfo()).then(() => {
+        const store = mockStore();
+        return store.dispatch(actions.addTeammate(newTeammate)).then(() => {
             // return of async actions
-            console.log(store.getActions());
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+    });
+
+    it('dispatch `DELETE_TEAMMATE` when deleting teammate is done', () => {
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200
+            })
+        });
+
+        const deletedTeammate = {id: 1, name: "Austin", pairingBoard: 1};
+        const expectedActions = [
+            {type: actionTypes.DELETE_TEAMMATE, payload: {id: 1, name: "Austin", pairingBoard: 1}},
+            {type: actionTypes.REMOVE_TEAMMATE_FROM_PAIRING_BOARD, payload: {pairingBoardId: 1, teammateId: 1}}
+        ];
+        const store = mockStore();
+        return store.dispatch(actions.deleteTeammate(deletedTeammate)).then(() => {
+            // return of async actions
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+    });
+
+    it('dispatch `ADD_PAIRING_BOARD` when addPairingBoard is done', () => {
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: {"id": 1, "title": "The Moon Base", "teammates": []}
+            });
+        });
+
+        const newPairingBoard = {"title": "The Moon Base"}
+        const expectedActions = [{
+            type: actionTypes.ADD_PAIRING_BOARD,
+            payload: {"id": 1, "title": "The Moon Base", "teammates": []}
+        }];
+
+        const store = mockStore();
+        return store.dispatch(actions.addPairingBoard(newPairingBoard)).then(() => {
+            // return of async actions
             expect(store.getActions()).toEqual(expectedActions)
         });
 
     });
 
+    it('dispatch `LIST_OF_TEAMS` && `LIST_OF_PAIRING_BOARDS` when fetching projectInfo is done', () => {
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: {
+                    "pairingBoardList": [{
+                        "id": 1,
+                        "title": "Moon Base",
+                        "teammates": [{"id": 1, "name": "Austin", "pairingBoard": 1}]
+                    }],
+                    "teammateList": [{"id": 1, "name": "Austin", "pairingBoard": 1}]
+                }
+            });
+        });
+
+        const expectedActions = [
+            {type: actionTypes.LIST_OF_TEAMMATES, payload: [{"id": 1, "name": "Austin", "pairingBoard": 1}]},
+            {
+                type: actionTypes.LIST_OF_PAIRING_BOARDS, payload: [{
+                    "id": 1, "title": "Moon Base",
+                    "teammates": [{"id": 1, "name": "Austin", "pairingBoard": 1}]
+                }]
+            }
+        ];
+
+        const store = mockStore();
+
+
+        return store.dispatch(actions.fetchProjectInfo()).then(() => {
+            // return of async actions
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+
+    });
+
+    it('dispatch `UPDATE_PAIRING_BOARD` && UPDATE_TEAMMATE when `upDatePairingBoardAndTeammates` is done', () => {
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: {"id": 6, "title": "Area 51", "teammates": [{"id": 1, "name": "Austin", "pairingBoard": 6}]}
+            });
+        });
+
+        const pairingBoardId = 6;
+        const pairingBoard = {title: "Area 51", teammates: [{id: 1, name: "Austin", pairingBoard: 6}]};
+        const teammate = {id: 1, name: "Austin", pairingBoard: null}
+
+        const expectedActions = [{
+            type: actionTypes.UPDATE_PAIRING_BOARD,
+            payload: {"id": 6, "title": "Area 51", "teammates": [{"id": 1, "name": "Austin", "pairingBoard": 6}]}
+        },
+            {type: actionTypes.UPDATE_TEAMMATE, payload: {"id": 1, "name": "Austin", "pairingBoard": 6}}];
+
+        const store = mockStore();
+
+        return store.dispatch(actions.updatePairingBoardAndTeammates(pairingBoardId, pairingBoard, teammate)).then(() => {
+            // return of async actions
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+
+    });
 });

@@ -2,8 +2,7 @@ import React from 'react';
 import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux';
 import ItemTypes from "../../constants/ItemTypes";
-import PropTypes from 'prop-types';
-import {upDatePairingBoard, actionRemoveTeammate} from "../actions";
+import {updatePairingBoardAndTeammates} from "../actions";
 import styled from 'styled-components';
 import Teammate from "../teammate/Teammate";
 
@@ -15,21 +14,20 @@ border: 3px solid blue;
 
 export const Board = (props) => {
 
-    const {listOfTeammatesREDUX} = props;
+    const {listOfTeammatesREDUX, updatePairingBoardAndTeammatesREDUX, pairingBoard} = props;
 
     const [, drop] = useDrop({
         accept: ItemTypes.TEAMMATE,
         drop(item) {
             const teammate = listOfTeammatesREDUX.filter(teammate => teammate.id === item.id);
-            const pairingBoardId = props.pairingBoard.id;
-            const pairingBoard = {
-                title: props.pairingBoard.title,
-                teammates: [{id: teammate[0].id, name: teammate[0].name}]
-            };
-            props.upDatePairingBoardREDUX(pairingBoardId, pairingBoard);
-            props.removeTeammateREDUX(teammate[0].id);
-        }
+                const updatedPairingBoard = {
+                    title: pairingBoard.title,
+                    teammates: [{id: teammate[0].id, name: teammate[0].name}]
+                };
+                updatePairingBoardAndTeammatesREDUX(pairingBoard.id, updatedPairingBoard, teammate[0]);
+            }
     });
+
     return (
         <BoardContainer ref={drop}>
             <p style={{border: "1px solid blue"}}>{props.pairingBoard.title}</p>
@@ -39,16 +37,13 @@ export const Board = (props) => {
     );
 };
 
-
-
 const mapStateToProps = (state) => {
     return {
         listOfTeammatesREDUX: state.listOfTeammates
     }
 };
 const mapDispatchToProps = {
-    upDatePairingBoardREDUX: upDatePairingBoard,
-    removeTeammateREDUX: actionRemoveTeammate
+    updatePairingBoardAndTeammatesREDUX: updatePairingBoardAndTeammates,
 };
 
 

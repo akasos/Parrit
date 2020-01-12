@@ -3,7 +3,9 @@ import {shallow} from 'enzyme';
 import {PairingBoards} from './PairingBoards';
 
 function renderPairingBoard(args) {
-    const defaultProps = {}
+    const defaultProps = {
+        listOfPairingBoardsREDUX: []
+    };
     const props = {...defaultProps, ...args}
     return shallow(<PairingBoards {...props}/>)
 }

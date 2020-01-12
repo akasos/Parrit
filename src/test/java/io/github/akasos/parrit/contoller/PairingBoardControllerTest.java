@@ -38,8 +38,13 @@ public class PairingBoardControllerTest {
 
     @Test
     public void getAllPairingBoards() throws Exception {
-        PairingBoard pairingBoard = new PairingBoard(1L, "The Salt Mines");
-        pairingBoard.addTeammate(new Person(1L, "Austin"));
+        PairingBoard pairingBoard = new PairingBoard("The Salt Mines");
+        pairingBoard.setId(1L);
+
+        Person person = new Person("Austin");
+        person.setId(1L);
+
+        pairingBoard.addTeammate(person);
 
         List<PairingBoard> listOfPairingBoards = Arrays.asList(pairingBoard);
 
@@ -51,7 +56,7 @@ public class PairingBoardControllerTest {
 
         MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
 
-        String expected = "[{\"id\": 1, \"title\": \"The Salt Mines\", \"teammates\": [{\"id\": 1, \"name\": \"Austin\", \"pairing_board_fk\": null}]}]";
+        String expected = "[{\"id\": 1, \"title\": \"The Salt Mines\", \"teammates\": [{\"id\": 1, \"name\": \"Austin\", \"pairingBoard\": 1}]}]";
 
         JSONAssert.assertEquals(expected, resultResponse.getResponse().getContentAsString(), false);
 
@@ -59,7 +64,9 @@ public class PairingBoardControllerTest {
 
     @Test
     public void createPairingBoard() throws Exception {
-        PairingBoard pairingBoard = new PairingBoard(1L, "The Salt Mines");
+        PairingBoard pairingBoard = new PairingBoard("The Salt Mines");
+        pairingBoard.setId(1L);
+
         Mockito.when(pairingBoardRepository.save(pairingBoard)).thenReturn(pairingBoard);
 
         String examplePairingBoardJson =
@@ -80,7 +87,9 @@ public class PairingBoardControllerTest {
 
     @Test
     public void updatePairingBoard() throws Exception {
-        PairingBoard pairingBoard = new PairingBoard(1L,"The Salt Mines");
+        PairingBoard pairingBoard = new PairingBoard("The Salt Mines");
+        pairingBoard.setId(1L);
+
         Mockito.when(pairingBoardRepository.findById(pairingBoard.getId())).thenReturn(Optional.of(pairingBoard));
         Mockito.when(pairingBoardRepository.save(pairingBoard)).thenReturn(pairingBoard);
 
@@ -104,14 +113,16 @@ public class PairingBoardControllerTest {
 
     @Test
     public void deletePairingBoard() throws Exception {
-        PairingBoard pairingBoard = new PairingBoard(1L, "The Salt Mines");
+        PairingBoard pairingBoard = new PairingBoard("The Salt Mines");
+        pairingBoard.setId(1L);
+
         Mockito.when(pairingBoardRepository.findById(pairingBoard.getId())).thenReturn(Optional.of(pairingBoard));
         Mockito.doNothing().when(pairingBoardRepository).delete(pairingBoard);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .delete("/api/pairingboards/{pairingBoardId}", "1")
-                .accept(MediaType.APPLICATION_JSON);
-
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
 

@@ -12,11 +12,11 @@ function renderModal(args) {
 
 describe("Modal", () => {
     it('should render the `AddTeammate` component', () => {
-        const component1 = renderModal(<AddTeammate cancel={jest.fn()} addTeammmate={jest.fn()}/>);
+        const component1 = renderModal(<AddTeammate cancel={jest.fn()} addTeammate={jest.fn()}/>);
         expect(component1.debug()).toMatchSnapshot();
     });
     it('should render the `AddPairingBoard` component', () => {
-        const component2 = renderModal(<AddPairingBoard cancel={jest.fn()} addTeammmate={jest.fn()}/>);
+        const component2 = renderModal(<AddPairingBoard cancel={jest.fn()} addPairingBoard={jest.fn()}/>);
         expect(component2.debug()).toMatchSnapshot();
 
     });

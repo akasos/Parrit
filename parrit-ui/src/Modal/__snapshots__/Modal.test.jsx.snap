@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal should render the \`AddPairingBoard\` component 1`] = `
+"<Modal domElement={{...}}>
+  <Portal containerInfo={{...}}>
+    <AddPairingBoard cancel={[Function: mockConstructor]} addPairingBoard={[Function: mockConstructor]}>
+      <styled.div data-testid=\\"test\\" className=\\"ui dimmer modals visible active modal-container\\" onClick={[Function: mockConstructor]}>
+        <StyledComponent data-testid=\\"test\\" className=\\"ui dimmer modals visible active modal-container\\" onClick={[Function: mockConstructor]} forwardedComponent={{...}} forwardedRef={{...}}>
+          <div data-testid=\\"test\\" className=\\"sc-bdVaJa bDWFJH ui dimmer modals visible active modal-container\\" onClick={[Function: mockConstructor]}>
+            <styled.div onClick={[Function: onClick]} className=\\"ui standard modal visible active\\">
+              <StyledComponent onClick={[Function: onClick]} className=\\"ui standard modal visible active\\" forwardedComponent={{...}} forwardedRef={{...}}>
+                <div onClick={[Function: onClick]} className=\\"sc-bwzfXH uTxCW ui standard modal visible active\\">
+                  <styled.div>
+                    <StyledComponent forwardedComponent={{...}} forwardedRef={{...}}>
+                      <div className=\\"sc-htpNat KtFsv\\">
+                        <styled.h2>
+                          <StyledComponent forwardedComponent={{...}} forwardedRef={{...}}>
+                            <h2 className=\\"sc-bxivhb bUZGRr\\">
+                              Add Pairing Board
+                            </h2>
+                          </StyledComponent>
+                        </styled.h2>
+                      </div>
+                    </StyledComponent>
+                  </styled.div>
+                  <styled.input className=\\"add-pairing-board-input\\" type=\\"text\\" onChange={[Function]} value={[undefined]}>
+                    <StyledComponent className=\\"add-pairing-board-input\\" type=\\"text\\" onChange={[Function]} value={[undefined]} forwardedComponent={{...}} forwardedRef={{...}}>
+                      <input className=\\"sc-ifAKCX cFlEyZ add-pairing-board-input\\" type=\\"text\\" onChange={[Function]} value={[undefined]} />
+                    </StyledComponent>
+                  </styled.input>
+                  <div className=\\"actions\\">
+                    <styled.button onClick={[Function: bound addPairingBoard]} className=\\"ui primary button add-pairing-board-button\\">
+                      <StyledComponent onClick={[Function: bound addPairingBoard]} className=\\"ui primary button add-pairing-board-button\\" forwardedComponent={{...}} forwardedRef={{...}}>
+                        <button onClick={[Function: bound addPairingBoard]} className=\\"sc-EHOje jvzENE ui primary button add-pairing-board-button\\">
+                          Ok
+                        </button>
+                      </StyledComponent>
+                    </styled.button>
+                    <styled.button onClick={[Function: mockConstructor]} className=\\"ui button cancel-adding-teammate-button\\">
+                      <StyledComponent onClick={[Function: mockConstructor]} className=\\"ui button cancel-adding-teammate-button\\" forwardedComponent={{...}} forwardedRef={{...}}>
+                        <button onClick={[Function: mockConstructor]} className=\\"sc-EHOje jvzENE ui button cancel-adding-teammate-button\\">
+                          Cancel
+                        </button>
+                      </StyledComponent>
+                    </styled.button>
+                  </div>
+                </div>
+              </StyledComponent>
+            </styled.div>
+          </div>
+        </StyledComponent>
+      </styled.div>
+    </AddPairingBoard>
+  </Portal>
+</Modal>"
+`;
+
+exports[`Modal should render the \`AddTeammate\` component 1`] = `
+"<Modal domElement={{...}}>
+  <Portal containerInfo={{...}}>
+    <AddTeammate cancel={[Function: mockConstructor]} addTeammate={[Function: mockConstructor]}>
+      <styled.div className=\\"ui dimmer modals visible active modal-container\\" onClick={[Function: mockConstructor]}>
+        <StyledComponent className=\\"ui dimmer modals visible active modal-container\\" onClick={[Function: mockConstructor]} forwardedComponent={{...}} forwardedRef={{...}}>
+          <div className=\\"sc-bZQynM bOrPFB ui dimmer modals visible active modal-container\\" onClick={[Function: mockConstructor]}>
+            <styled.div onClick={[Function: onClick]} className=\\"ui standard modal visible active\\">
+              <StyledComponent onClick={[Function: onClick]} className=\\"ui standard modal visible active\\" forwardedComponent={{...}} forwardedRef={{...}}>
+                <div onClick={[Function: onClick]} className=\\"sc-gzVnrw ibZhkv ui standard modal visible active\\">
+                  <styled.div>
+                    <StyledComponent forwardedComponent={{...}} forwardedRef={{...}}>
+                      <div className=\\"sc-htoDjs bZzhDu\\">
+                        <styled.h2>
+                          <StyledComponent forwardedComponent={{...}} forwardedRef={{...}}>
+                            <h2 className=\\"sc-dnqmqq bDsesi\\">
+                              Add Parrit Teammate
+                            </h2>
+                          </StyledComponent>
+                        </styled.h2>
+                      </div>
+                    </StyledComponent>
+                  </styled.div>
+                  <styled.input className=\\"add-teammate-input\\" type=\\"text\\" onChange={[Function]} value=\\"\\">
+                    <StyledComponent className=\\"add-teammate-input\\" type=\\"text\\" onChange={[Function]} value=\\"\\" forwardedComponent={{...}} forwardedRef={{...}}>
+                      <input className=\\"sc-iwsKbI jQhHGA add-teammate-input\\" type=\\"text\\" onChange={[Function]} value=\\"\\" />
+                    </StyledComponent>
+                  </styled.input>
+                  <div className=\\"actions\\">
+                    <styled.button onClick={[Function: onClick]} className=\\"ui primary button add-teammate-button\\">
+                      <StyledComponent onClick={[Function: onClick]} className=\\"ui primary button add-teammate-button\\" forwardedComponent={{...}} forwardedRef={{...}}>
+                        <button onClick={[Function: onClick]} className=\\"sc-gZMcBi giNnHm ui primary button add-teammate-button\\">
+                          Ok
+                        </button>
+                      </StyledComponent>
+                    </styled.button>
+                    <styled.button onClick={[Function: mockConstructor]} className=\\"ui button cancel-adding-teammate-button\\">
+                      <StyledComponent onClick={[Function: mockConstructor]} className=\\"ui button cancel-adding-teammate-button\\" forwardedComponent={{...}} forwardedRef={{...}}>
+                        <button onClick={[Function: mockConstructor]} className=\\"sc-gZMcBi giNnHm ui button cancel-adding-teammate-button\\">
+                          Cancel
+                        </button>
+                      </StyledComponent>
+                    </styled.button>
+                  </div>
+                </div>
+              </StyledComponent>
+            </styled.div>
+          </div>
+        </StyledComponent>
+      </styled.div>
+    </AddTeammate>
+  </Portal>
+</Modal>"
+`;

@@ -10,6 +10,6 @@ const Modal = (props) => {
 
 Modal.propTypes = {
     children: PropTypes.node.isRequired,
-    domElement: PropTypes.object.isRequired
+    domElement: PropTypes.object
 };
 export default Modal;

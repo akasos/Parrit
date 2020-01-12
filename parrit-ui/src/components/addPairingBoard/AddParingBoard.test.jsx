@@ -3,7 +3,10 @@ import { shallow } from 'enzyme'
 import { AddPairingBoard } from './AddPairingBoard';
 
 function renderAddPairingBoard(args){
-    const defaultProps = {};
+    const defaultProps = {
+        addPairingBoard: jest.fn(),
+        cancel: jest.fn()
+    };
     const props = {...defaultProps, ...args}
 
     return shallow(<AddPairingBoard{...props}/>)
