@@ -41,7 +41,7 @@ public class PairingBoardController {
         //            Long personId = pairingBoardRequest.getTeammates().get(0).getId();
         //            Person person = personRepository.findById(personId).get();
         //            if(person.getPairingBoard() != null) {
-        //                PairingBoard tempPairingBoard = pairingBoardRepository.findById(person.getPairingBoard().getId()).get();
+        //                PairingBoard tempPairingBoard = pairingBoardRepository.findById(person.getPairingBoard().getId()).get();`
         //                tempPairingBoard.removeTeammate(person);
         //                pairingBoardRepository.save(tempPairingBoard);
         //            }

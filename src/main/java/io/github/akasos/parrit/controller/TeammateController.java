@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/teammates", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,6 +33,15 @@ public class TeammateController {
     public ResponseEntity<Person> createTeammate(@Valid @RequestBody Person person) {
         Person temp = personRepository.save(person);
         return ResponseEntity.ok().body(temp);
+    }
+
+    @PutMapping(path = "/{teammateId}")
+    public ResponseEntity<Person> upDateTeammate(@PathVariable Long teammateId, @Valid @RequestBody Person person){
+        Optional<Person> newPerson = personRepository.findById(teammateId);
+        if(newPerson.isPresent()){
+            return ResponseEntity.ok().body(personRepository.save(person));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping(value = "/{teammateId}")

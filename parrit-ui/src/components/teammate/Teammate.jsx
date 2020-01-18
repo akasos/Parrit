@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDrag} from "react-dnd";
-import styled from 'styled-components'
+import styled from 'styled-components';
+import * as PropTypes from 'prop-types';
 import ItemTypes from "../../constants/ItemTypes";
 
 const TeammateContainer = styled.div`
@@ -31,5 +32,10 @@ const Teammate = (props) => {
         </TeammateContainer>
     );
 };
+
+Teammate.propTypes = {
+  teammate: PropTypes.object.isRequired
+};
+
 
 export default Teammate;

@@ -24,11 +24,11 @@ const Header = () => {
         <HeadContainer>
             <AppTitle>Parrit</AppTitle>
             <ButtonsContainer>
-                <Button text="LOGOUT"/>
-                <Button text="FEEDBACK"/>
-                <Button text="HISTORY"/>
-            </ButtonsContainer>
-        </HeadContainer>
-    )
+                <Button className="temp" onClick={() => null} text="LOGOUT"/>
+            <Button className="temp" onClick={() => null} text="FEEDBACK"/>
+            <Button className="temp" onClick={() => null} text="HISTORY"/>
+        </ButtonsContainer>
+</HeadContainer>
+)
 };
 export default Header

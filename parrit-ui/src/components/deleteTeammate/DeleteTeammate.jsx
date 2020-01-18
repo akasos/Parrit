@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux';
+import * as PropTypes from 'prop-types';
 import {deleteTeammate} from '../actions';
 import styled from 'styled-components';
 import ItemTypes from "../../constants/ItemTypes";
@@ -18,8 +19,7 @@ export const DeleteTeammate = (props) => {
     const [, drop] = useDrop({
         accept: ItemTypes.TEAMMATE,
         drop(item) {
-            const teammate = listOfTeammatesREDUX.filter(teammate => teammate.id === item.id)[0];
-            console.log(teammate);
+            const teammate = listOfTeammatesREDUX.find(teammate => teammate.id === item.id);
             deleteTeammateREDUX(teammate);
         }
     });
@@ -28,6 +28,11 @@ export const DeleteTeammate = (props) => {
 
         </DeleteContainer>
     );
+};
+
+DeleteTeammate.propTypes = {
+  deleteTeammateREDUX: PropTypes.func.isRequired,
+  listOfTeammatesREDUX: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => {

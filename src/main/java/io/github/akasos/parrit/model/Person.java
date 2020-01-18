@@ -19,6 +19,7 @@ public class Person {
     private Long id;
 
     @NonNull
+    @Column(unique = true)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade= {CascadeType.PERSIST, CascadeType.MERGE,

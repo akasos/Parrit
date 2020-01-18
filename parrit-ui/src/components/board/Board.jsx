@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux';
+import * as PropTypes from 'prop-types';
 import ItemTypes from "../../constants/ItemTypes";
 import {updatePairingBoardAndTeammates} from "../actions";
 import styled from 'styled-components';
@@ -19,13 +20,9 @@ export const Board = (props) => {
     const [, drop] = useDrop({
         accept: ItemTypes.TEAMMATE,
         drop(item) {
-            const teammate = listOfTeammatesREDUX.filter(teammate => teammate.id === item.id);
-                const updatedPairingBoard = {
-                    title: pairingBoard.title,
-                    teammates: [{id: teammate[0].id, name: teammate[0].name}]
-                };
-                updatePairingBoardAndTeammatesREDUX(pairingBoard.id, updatedPairingBoard, teammate[0]);
-            }
+            const teammate = listOfTeammatesREDUX.find(teammate => teammate.id === item.id);
+            updatePairingBoardAndTeammatesREDUX(pairingBoard,teammate);
+        }
     });
 
     return (
@@ -35,6 +32,11 @@ export const Board = (props) => {
                 key={people.id} teammate={people}/>)}
         </BoardContainer>
     );
+};
+
+Board.propTypes = {
+  listOfTeammatesREDUX: PropTypes.array.isRequired,
+    updatePairingBoardAndTeammatesREDUX: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {

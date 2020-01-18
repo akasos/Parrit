@@ -46,13 +46,7 @@ export class App extends Component {
 }
 
 App.propTypes = {
-    fetchProjectInfo: PropTypes.func.isRequired
+    fetchProjectInfo: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-    return {
-        listOfTeammatesREDUX: state.listOfTeammates
-    }
-};
-
-export default connect(mapStateToProps, {fetchProjectInfo})(App);
+export default connect(null, {fetchProjectInfo})(App);

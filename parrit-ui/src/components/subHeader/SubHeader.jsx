@@ -22,9 +22,9 @@ const SubHeader = ({projectName}) => {
         <SubHeaderContainer>
             <ProjectName>{projectName}</ProjectName>
             <ButtonsContainer>
-                <Button text="Reset Pairs"/>
-                <Button text="Recommend Paris"/>
-                <Button text="Record Paris"/>
+                <Button className="temp" onClick={() => null} text="Reset Pairs"/>
+                <Button className="temp" onClick={() => null} text="Recommend Paris"/>
+                <Button className="temp" onClick={() => null} text="Record Paris"/>
             </ButtonsContainer>
         </SubHeaderContainer>
     )

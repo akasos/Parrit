@@ -21,7 +21,7 @@ export const addTeammate = (newTeammate) => async dispatch => {
 export const deleteTeammate = (teammate) => async dispatch => {
     await api.delete(`/teammates/${teammate.id}`);
     dispatch(actionDeleteTeammate(teammate));
-    if(teammate.pairingBoard !== null){
+    if (teammate.pairingBoard !== null) {
         dispatch(actionRemoveTeammateFromPairingBoard(teammate.pairingBoard, teammate.id));
     }
 };
@@ -31,19 +31,32 @@ export const addPairingBoard = (newPairingBoard) => async dispatch => {
     dispatch(actionAddPairingBoard(response.data));
 };
 
-export const updatePairingBoardAndTeammates = (pairingBoardId, pairingBoard, teammate) => async dispatch => {
-    const response = await api.put(`/pairingboards/${pairingBoardId}`, pairingBoard);
-    dispatch(actionUpdatePairingBoard(response.data));
+export const updatePairingBoardAndTeammates = (pairingBoard,teammate) => async dispatch => {
+    const tempPairingBoard = {
+        id: pairingBoard.id,
+        title: pairingBoard.title,
+        teammates: [{id: teammate.id, name: teammate.name}]
+    };
+    const {data: updatedPairingBoard} = await api.put(`/pairingboards/${tempPairingBoard.id}`, tempPairingBoard);
+    dispatch(actionUpdatePairingBoard(updatedPairingBoard));
     if (teammate.pairingBoard === null) {
-        teammate.pairingBoard = pairingBoardId;
+        teammate.pairingBoard = updatedPairingBoard.id;
         dispatch(actionUpdateTeammate(teammate));
-    } else if (teammate.pairingBoard !== pairingBoardId) {
+    } else if (teammate.pairingBoard !== updatedPairingBoard.id) {
         const previousPairingBoardId = teammate.pairingBoard;
-        teammate.pairingBoard = pairingBoardId;
+        teammate.pairingBoard = updatedPairingBoard.id;
         dispatch(actionUpdateTeammate(teammate));
         dispatch(actionRemoveTeammateFromPairingBoard(previousPairingBoardId, teammate.id));
-
     }
+};
+
+export const moveTeammateFromPairingBoardToFloatingParrits = (teammate) => async dispatch => {
+    const pairingBoardId = teammate.pairingBoard;
+    delete teammate.pairingBoard;
+    teammate.pairing_board_id = null;
+    const { data: updatedTeammated } = await api.put(`/teammates/${teammate.id}`, teammate);
+    dispatch(actionUpdateTeammate(updatedTeammated));
+    dispatch(actionRemoveTeammateFromPairingBoard(pairingBoardId, updatedTeammated.id));
 };
 
 

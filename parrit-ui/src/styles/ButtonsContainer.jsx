@@ -1,4 +1,5 @@
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -14,6 +15,10 @@ const ButtonsContainer = (props) => {
             {props.children}
         </Container>
     )
+};
+
+ButtonsContainer.propTypes = {
+  children: PropTypes.node.isRequired
 };
 
 export default ButtonsContainer;
