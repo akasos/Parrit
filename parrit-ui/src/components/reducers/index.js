@@ -24,6 +24,8 @@ export const listOfPairingBoards = (state = [], action) => {
             return action.payload;
         case actionTypes.ADD_PAIRING_BOARD:
             return [...state, action.payload];
+        case actionTypes.DELETE_PAIRING_BOARD:
+            return state.filter(pairingBoard => pairingBoard.id !== action.payload.id);
         case actionTypes.UPDATE_PAIRING_BOARD:
             return state.map(pairingBoard => pairingBoard.id !== action.payload.id ? pairingBoard : action.payload);
         case actionTypes.REMOVE_TEAMMATE_FROM_PAIRING_BOARD:

@@ -70,7 +70,7 @@ public class PairingBoardControllerTest {
         Mockito.when(pairingBoardRepository.save(pairingBoard)).thenReturn(pairingBoard);
 
         String examplePairingBoardJson =
-                "{\"title\": \"The Salt Mines\"}";
+                "{\"id\": \"1\", \"title\": \"The Salt Mines\"}";
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/api/pairingboards")
@@ -81,7 +81,7 @@ public class PairingBoardControllerTest {
 
         MockHttpServletResponse response = resultResponse.getResponse();
 
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 
     }
 

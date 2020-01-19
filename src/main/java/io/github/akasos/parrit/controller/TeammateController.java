@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,20 +26,20 @@ public class TeammateController {
     }
 
     @GetMapping
-    public List<Person> getAllTeammates() {
-        return personRepository.findAll();
+    public ResponseEntity<List<Person>> getAllTeammates() {
+        return ResponseEntity.ok().body(personRepository.findAll());
     }
 
     @PostMapping
     public ResponseEntity<Person> createTeammate(@Valid @RequestBody Person person) {
         Person temp = personRepository.save(person);
-        return ResponseEntity.ok().body(temp);
+        return ResponseEntity.created(URI.create("/teammates/" + temp.getName().replaceAll("\\s+",""))).body(temp);
     }
 
     @PutMapping(path = "/{teammateId}")
-    public ResponseEntity<Person> upDateTeammate(@PathVariable Long teammateId, @Valid @RequestBody Person person){
+    public ResponseEntity<Person> upDateTeammate(@PathVariable Long teammateId, @Valid @RequestBody Person person) {
         Optional<Person> newPerson = personRepository.findById(teammateId);
-        if(newPerson.isPresent()){
+        if (newPerson.isPresent()) {
             return ResponseEntity.ok().body(personRepository.save(person));
         }
         return ResponseEntity.notFound().build();

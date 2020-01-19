@@ -31,6 +31,11 @@ export const addPairingBoard = (newPairingBoard) => async dispatch => {
     dispatch(actionAddPairingBoard(response.data));
 };
 
+export const deletePairingBoard = (pairingBoard) => async dispatch => {
+  await api.delete(`/pairingboards/${pairingBoard.id}`);
+  dispatch(actionDeletePairingBoard(pairingBoard));
+};
+
 export const updatePairingBoardAndTeammates = (pairingBoard,teammate) => async dispatch => {
     const tempPairingBoard = {
         id: pairingBoard.id,
@@ -74,6 +79,7 @@ function actionAddTeammate(teammate = {}) {
     }
 }
 
+
 export function actionUpdateTeammate(teammate) {
     return {
         type: actionTypes.UPDATE_TEAMMATE,
@@ -91,6 +97,13 @@ function actionGetAllPairingBoards(pairingBoards = []) {
 function actionAddPairingBoard(pairingBoard = {}) {
     return {
         type: actionTypes.ADD_PAIRING_BOARD,
+        payload: pairingBoard
+    }
+}
+
+function actionDeletePairingBoard(pairingBoard= {}) {
+    return {
+        type: actionTypes.DELETE_PAIRING_BOARD,
         payload: pairingBoard
     }
 }

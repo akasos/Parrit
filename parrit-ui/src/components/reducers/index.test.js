@@ -17,7 +17,7 @@ describe('Reducers', () => {
             const action = {type: actionTypes.ADD_TEAMMATE, payload: {id: 2, name: 'Skyler', pairingBoard: null}};
             const expected = [{id: 1, name: 'Austin', pairingBoard: null}, {id: 2, name: "Skyler", pairingBoard: null}];
             expect(listOfTeammates([{id: 1, name: 'Austin', pairingBoard: null}], action)).toEqual(expected);
-        })
+        });
 
         it('should update a teammate when assigned to a new pairing board', () => {
             const action = {type: actionTypes.UPDATE_TEAMMATE, payload: {id: 1, name: "Austin", pairingBoard: 1}};
@@ -73,6 +73,20 @@ describe('Reducers', () => {
             }, {id: 2, title: "Area 51", teammates: []}];
             expect(listOfPairingBoards(actual, action)).toEqual(expected);
         });
+
+        it('should remove a pairingBoard from the []', () => {
+           const action = {type: actionTypes.DELETE_PAIRING_BOARD, payload: {id: 2, title: "Area 51", teammates: []}};
+           const actual = [{id: 1, title: "The Moon Base", teammates: [{id: 1, name: "Austin", pairingBoard: 1}]}, {id: 2, title: "Area 51", teammates: []}];
+           const expected = [
+               {
+                   id: 1,
+                   title: "The Moon Base",
+                   teammates: [{id: 1, name: "Austin", pairingBoard: 1}]
+               }
+           ];
+           expect(listOfPairingBoards(actual, action)).toEqual(expected);
+        });
+
 
         it('should update an already existing pairingBoard', () => {
             const action = {

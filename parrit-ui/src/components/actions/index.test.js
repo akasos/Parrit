@@ -139,6 +139,26 @@ describe("async actions", () => {
 
     });
 
+    it('dispatch `DELETE_PAIRING_BOARD` when deleting board is done', () => {
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200
+            })
+        });
+        const deletedPairingBoard = {id: 1, title: "The Moon Base", teammates: []}
+        const expectedActions = [{
+            type: actionTypes.DELETE_PAIRING_BOARD,
+            payload: {id: 1, title: "The Moon Base", teammates: []}
+        }];
+
+        const store = mockStore();
+        return store.dispatch(actions.deletePairingBoard(deletedPairingBoard)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            }
+        );
+    });
+
     it('dispatch `UPDATE_PAIRING_BOARD` && `UPDATE_TEAMMATE` && `REMOVE_TEAMMATE_FROM_PAIRING_BOARD` `updatePairingBoardAndTeammates` is done', () => {
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -148,7 +168,7 @@ describe("async actions", () => {
             });
         });
 
-        const pairingBoard = {id: 6, title: "Area 51", teammates: {id: 1, name: "Austin", pairingBoard: 6 }};
+        const pairingBoard = {id: 6, title: "Area 51", teammates: {id: 1, name: "Austin", pairingBoard: 6}};
         const teammate = {id: 1, name: "Austin", pairingBoard: 5};
 
         const expectedActions = [{
@@ -157,7 +177,7 @@ describe("async actions", () => {
         },
             {type: actionTypes.UPDATE_TEAMMATE, payload: {"id": 1, "name": "Austin", "pairingBoard": 6}},
 
-            {type: actionTypes.REMOVE_TEAMMATE_FROM_PAIRING_BOARD, payload: {pairingBoardId: 5, teammateId: 1 }}
+            {type: actionTypes.REMOVE_TEAMMATE_FROM_PAIRING_BOARD, payload: {pairingBoardId: 5, teammateId: 1}}
         ];
 
         const store = mockStore();
@@ -175,13 +195,6 @@ describe("async actions", () => {
                 status: 200,
                 response: {"id": 6, "title": "Area 51", "teammates": [{"id": 1, "name": "Austin", "pairingBoard": 6}]}
             });
-
-            const expectedActions = [{
-                type: actionTypes.UPDATE_PAIRING_BOARD,
-                payload: {"id": 6, "title": "Area 51", "teammates": [{"id": 1, "name": "Austin", "pairingBoard": 6}]}
-            },
-                {type: actionTypes.UPDATE_TEAMMATE, payload: {"id": 1, "name": "Austin", "pairingBoard": 6}}
-            ];
         });
 
         const pairingBoard = {id: 6, title: "Area 51", teammates: [{id: 1, name: "Austin", pairingBoard: 6}]};

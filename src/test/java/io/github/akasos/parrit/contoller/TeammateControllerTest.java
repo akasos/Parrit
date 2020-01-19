@@ -73,7 +73,7 @@ public class TeammateControllerTest {
 
         MockHttpServletResponse response = resultResponse.getResponse();
 
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 //        assertEquals("/api/add/1", response.getHeader(HttpHeaders.LOCATION));
     }
 

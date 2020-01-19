@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,15 +26,14 @@ public class PairingBoardController {
     }
 
     @GetMapping
-    public List<PairingBoard> getAllPairingBoards() {
-        return pairingBoardRepository.findAll();
-
+    public ResponseEntity<List<PairingBoard>> getAllPairingBoards() {
+        return ResponseEntity.ok().body(pairingBoardRepository.findAll());
     }
 
     @PostMapping
     public ResponseEntity<PairingBoard> createPairingBoard(@Valid @RequestBody PairingBoard pairingBoard) {
         PairingBoard tempPairingBoard = pairingBoardRepository.save(pairingBoard);
-        return ResponseEntity.ok().body(tempPairingBoard);
+        return ResponseEntity.created(URI.create("/pairingBoard/" + tempPairingBoard.getTitle().replaceAll("\\s+",""))).body(tempPairingBoard);
     }
 
     @PutMapping(path = "/{pairingBoardId}")
@@ -63,6 +63,4 @@ public class PairingBoardController {
             return ResponseEntity.ok().build();
         }).orElseThrow(() -> new ResourceNotFoundException("PairingBoardId " + pairingBoardId + " not found"));
     }
-
-
 }
