@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -46,10 +47,16 @@ public class ProjectInfoControllerTest {
         person.setPairingBoard(pairingBoard);
 
         pairingBoard.addTeammate(person);
-        List<PairingBoard> listOfPairingBoards = Arrays.asList(pairingBoard);
-        List<Person> listOfTeammates = Arrays.asList(person);
+        List<PairingBoard> listOfPairingBoards = Collections.singletonList(pairingBoard);
+        List<Person> listOfTeammates = Collections.singletonList(person);
 
-        String expected = "{\"pairingBoardList\":[{\"id\":1,\"title\":\"The Salt Mines\",\"teammates\":[{\"id\": 1,\"name\":\"Austin\",\"pairingBoard\":1}]}],\"teammateList\":[{\"id\":1,\"name\":\"Austin\",\"pairingBoard\":1}]}";
+        String expected = "{" +
+                "\"pairingBoardList\":" +
+                "[" +
+                "{\"id\":1,\"title\":\"The Salt Mines\",\"teammates\":[{\"id\": 1,\"name\":\"Austin\",\"pairingBoard\":1}]}" +
+                "]," +
+                "\"teammateList\":" +
+                "[{\"id\":1,\"name\":\"Austin\",\"pairingBoard\":1}]}";
 
         Mockito.when(pairingBoardRepository.findAll()).thenReturn(listOfPairingBoards);
         Mockito.when(personRepository.findAll()).thenReturn(listOfTeammates);
@@ -64,6 +71,55 @@ public class ProjectInfoControllerTest {
         MockHttpServletResponse response = resultResponse.getResponse();
 
         JSONAssert.assertEquals(expected, response.getContentAsString(), false);
+
+    }
+
+    @Test
+    public void reset() throws Exception {
+        PairingBoard pairingBoard = new PairingBoard("The Salt Mines");
+        pairingBoard.setId(1L);
+
+        Person person1 = new Person("Austin");
+        person1.setId(1L);
+        person1.setPairingBoard(pairingBoard);
+
+        Person person2 = new Person("Skyler");
+        person2.setId(2L);
+        person2.setPairingBoard(pairingBoard);
+
+        pairingBoard.addTeammate(person1);
+        pairingBoard.addTeammate(person2);
+
+        List<PairingBoard> listOfPairingBoards = Collections.singletonList(pairingBoard);
+        List<Person> listOfTeammates = Arrays.asList(person1, person2);
+
+        String expected = "{" +
+                "\"pairingBoardList\":" +
+                "[" +
+                "{\"id\":1,\"title\":\"The Salt Mines\",\"teammates\":[]}" +
+                "]," +
+                "\"teammateList\":" +
+                "[" +
+                "{\"id\":1,\"name\":\"Austin\",\"pairingBoard\":null}," +
+                "{\"id\":2,\"name\":\"Skyler\",\"pairingBoard\":null}" +
+                "]" +
+                "}";
+
+        Mockito.when(pairingBoardRepository.findAll()).thenReturn(listOfPairingBoards);
+        Mockito.when(personRepository.findAll()).thenReturn(listOfTeammates);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .put("/api/projectinfo/reset")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+
+        MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
+
+        MockHttpServletResponse response = resultResponse.getResponse();
+
+        JSONAssert.assertEquals(expected, response.getContentAsString(), false);
+
 
     }
 

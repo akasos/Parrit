@@ -18,17 +18,16 @@ margin: 0 0 0 16px;
 
 `;
 
-
 const Header = () => {
     return (
         <HeadContainer>
             <AppTitle>Parrit</AppTitle>
             <ButtonsContainer>
                 <Button className="temp" onClick={() => null} text="LOGOUT"/>
-            <Button className="temp" onClick={() => null} text="FEEDBACK"/>
-            <Button className="temp" onClick={() => null} text="HISTORY"/>
-        </ButtonsContainer>
-</HeadContainer>
-)
+                <Button className="temp" onClick={() => null} text="FEEDBACK"/>
+                <Button className="temp" onClick={() => null} text="HISTORY"/>
+            </ButtonsContainer>
+        </HeadContainer>
+    )
 };
 export default Header

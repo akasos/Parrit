@@ -39,10 +39,10 @@ public class TeammateController {
     @PutMapping(path = "/{teammateId}")
     public ResponseEntity<Person> upDateTeammate(@PathVariable Long teammateId, @Valid @RequestBody Person person) {
         Optional<Person> newPerson = personRepository.findById(teammateId);
-        if (newPerson.isPresent()) {
-            return ResponseEntity.ok().body(personRepository.save(person));
+        if (!newPerson.isPresent()) {
+            throw new ResourceNotFoundException("TeammateId " + teammateId + " not found");
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(personRepository.save(person));
     }
 
     @DeleteMapping(value = "/{teammateId}")

@@ -27,16 +27,16 @@ export const deleteTeammate = (teammate) => async dispatch => {
 };
 
 export const addPairingBoard = (newPairingBoard) => async dispatch => {
-    const response = await api.post('/pairingboards', newPairingBoard)
+    const response = await api.post('/pairingboards', newPairingBoard);
     dispatch(actionAddPairingBoard(response.data));
 };
 
 export const deletePairingBoard = (pairingBoard) => async dispatch => {
-  await api.delete(`/pairingboards/${pairingBoard.id}`);
-  dispatch(actionDeletePairingBoard(pairingBoard));
+    await api.delete(`/pairingboards/${pairingBoard.id}`);
+    dispatch(actionDeletePairingBoard(pairingBoard));
 };
 
-export const updatePairingBoardAndTeammates = (pairingBoard,teammate) => async dispatch => {
+export const updatePairingBoardAndTeammates = (pairingBoard, teammate) => async dispatch => {
     const tempPairingBoard = {
         id: pairingBoard.id,
         title: pairingBoard.title,
@@ -59,9 +59,15 @@ export const moveTeammateFromPairingBoardToFloatingParrits = (teammate) => async
     const pairingBoardId = teammate.pairingBoard;
     delete teammate.pairingBoard;
     teammate.pairing_board_id = null;
-    const { data: updatedTeammated } = await api.put(`/teammates/${teammate.id}`, teammate);
+    const {data: updatedTeammated} = await api.put(`/teammates/${teammate.id}`, teammate);
     dispatch(actionUpdateTeammate(updatedTeammated));
     dispatch(actionRemoveTeammateFromPairingBoard(pairingBoardId, updatedTeammated.id));
+};
+
+export const removeTeammatesFromPairingBoard = () => async dispatch => {
+    const response = await api.put("/projectinfo/reset");
+    dispatch(actionGetAllTeammates(response.data.teammateList));
+    dispatch(actionGetAllPairingBoards(response.data.pairingBoardList));
 };
 
 
@@ -101,7 +107,7 @@ function actionAddPairingBoard(pairingBoard = {}) {
     }
 }
 
-function actionDeletePairingBoard(pairingBoard= {}) {
+function actionDeletePairingBoard(pairingBoard = {}) {
     return {
         type: actionTypes.DELETE_PAIRING_BOARD,
         payload: pairingBoard

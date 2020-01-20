@@ -25,7 +25,7 @@ public class PairingBoard {
     private String title;
 
     @OneToMany(mappedBy = "pairingBoard", cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH} )
+            CascadeType.DETACH, CascadeType.REFRESH}, fetch=FetchType.EAGER)
     private List<Person> teammates = new ArrayList<>();
 
     public void addTeammate(Person person){
