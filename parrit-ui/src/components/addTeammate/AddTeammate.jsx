@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 import {addTeammate} from "../actions";
 import style from 'styled-components'
+
 const ModalContainer = style.div``;
 const AddTeamMateContainer = style.div``;
 const TitleWrapper = style.div``;
@@ -16,7 +17,6 @@ export class AddTeammate extends Component {
         super(props);
         this.addTeammate = this.addTeammate.bind(this);
     }
-
     state = {
         name: ''
     };
@@ -26,8 +26,10 @@ export class AddTeammate extends Component {
     };
 
     addTeammate() {
-        this.props.addTeammate(this.state);
-        this.props.cancel();
+        if (this.state.name !== '') {
+            this.props.addTeammate(this.state);
+            this.props.cancel();
+        }
     };
 
     render() {
@@ -37,7 +39,13 @@ export class AddTeammate extends Component {
                 <AddTeamMateContainer onClick={(event) => event.stopPropagation()}
                                       className="ui standard modal visible active">
                     <TitleWrapper><Title>Add Parrit Teammate</Title></TitleWrapper>
-                    <AddTeammateInput className="add-teammate-input" type="text" onChange={this.onInputChange}
+                    <AddTeammateInput autoFocus className="add-teammate-input" type="text" onChange={this.onInputChange}
+                                      onKeyPress={event => {
+                                          if (event.key === "Enter") {
+                                              this.onInputChange(event);
+                                              this.addTeammate()
+                                          }
+                                      }}
                                       value={this.state.name}/>
                     <div className="actions">
                         <Button onClick={() => this.addTeammate()}

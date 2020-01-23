@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import { AddTeammate } from "./AddTeammate";
+import {AddTeammate} from "./AddTeammate";
 
 function renderAddTeammateComponentShallow(args) {
     const defaultProps = {
@@ -37,14 +37,44 @@ describe("Add Teammate", () => {
 
         });
     });
-    describe('addTeammate()', () => {
-        it('should call the the add func when the add button is clicked', () => {
-            jest.spyOn(AddTeammate.prototype, 'addTeammate');
+
+    describe("addTeammate()", () => {
+        it('should call `addTeammate()` prop when the ok button is clicked and a valid name is set', () => {
             const component = renderAddTeammateComponentShallow();
+            component.setState({name: "s"});
             component.find(".add-teammate-button").simulate('click');
-            expect(AddTeammate.prototype.addTeammate).toHaveBeenCalled();
-            AddTeammate.prototype.addTeammate.mockRestore();
+            expect(component.instance().props.addTeammate).toHaveBeenCalledTimes(1);
         });
+
+        it('should not call `addTeammate()` prop when the ok button is clicked with and invalid name', () => {
+            const component = renderAddTeammateComponentShallow();
+            component.setState({name: ""});
+            component.find(".add-teammate-button").simulate('click');
+            expect(component.instance().props.addTeammate).toHaveBeenCalledTimes(0);
+        });
+
+        // it('should call the `onInputChange()` && `addTeammate()` when the Enter key is pressed', () => {
+        //     jest.spyOn(AddPairingBoard.prototype, 'onInputChange');
+        //     jest.spyOn(AddPairingBoard.prototype, 'addTeammate');
+        //     const component = renderAddTeammateComponentShallow();
+        //     component.find(".add-pairing-board-input").simulate('keyPress', {key: "Enter", target: {value: "Austin"}});
+        //     expect(AddPairingBoard.prototype.onInputChange).toHaveBeenCalled();
+        //     expect(AddPairingBoard.prototype.addTeammate).toHaveBeenCalled();
+        //     AddPairingBoard.prototype.onInputChange.mockRestore();
+        //     AddPairingBoard.prototype.addTeammate.mockRestore();
+        // })
+        it('should call `addTeammate()` prop when the Enter button is clicked and a valid name is set', () => {
+            const component = renderAddTeammateComponentShallow();
+            component.find(".add-teammate-input").simulate('keyPress', {key: 'Enter', target: {value: "Austin"}});
+            expect(component.instance().props.addTeammate).toHaveBeenCalledTimes(1);
+        });
+        it('should not call `addTeammate()` prop when the Enter button is clicked with and invalid name', () => {
+            const component = renderAddTeammateComponentShallow();
+            component.find(".add-teammate-input").simulate('keyPress', {key: 'Enter', target: {value: ""}});
+            expect(component.instance().props.addTeammate).toHaveBeenCalledTimes(0);
+        });
+
     });
+
 
 });

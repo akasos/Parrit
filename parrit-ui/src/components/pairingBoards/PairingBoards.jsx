@@ -44,7 +44,8 @@ export class PairingBoards extends React.Component {
                 <Title>Pairing Boards</Title>
                 <BoardsContainer>
                     {listOfPairingBoardsREDUX.length > 0 && listOfPairingBoardsREDUX.map(pairingBoard => <Board
-                        key={pairingBoard.id} pairingBoard={pairingBoard}/>)}
+                        key={pairingBoard.id} pairingBoard={pairingBoard}
+                        numberOfPairingBoards={listOfPairingBoardsREDUX.length}/>)}
                 </BoardsContainer>
                 <ButtonContainer>
                     <Button className="add-pairing-board-button" onClick={this.addPairingBoard} text="Add Board"/>

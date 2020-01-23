@@ -23,9 +23,9 @@ exports[`Modal should render the \`AddPairingBoard\` component 1`] = `
                       </div>
                     </StyledComponent>
                   </styled.div>
-                  <styled.input className=\\"add-pairing-board-input\\" type=\\"text\\" onChange={[Function]} value={[undefined]}>
-                    <StyledComponent className=\\"add-pairing-board-input\\" type=\\"text\\" onChange={[Function]} value={[undefined]} forwardedComponent={{...}} forwardedRef={{...}}>
-                      <input className=\\"sc-ifAKCX cFlEyZ add-pairing-board-input\\" type=\\"text\\" onChange={[Function]} value={[undefined]} />
+                  <styled.input autoFocus={true} className=\\"add-pairing-board-input\\" type=\\"text\\" onChange={[Function]} onKeyPress={[Function: onKeyPress]} value={[undefined]}>
+                    <StyledComponent autoFocus={true} className=\\"add-pairing-board-input\\" type=\\"text\\" onChange={[Function]} onKeyPress={[Function: onKeyPress]} value={[undefined]} forwardedComponent={{...}} forwardedRef={{...}}>
+                      <input autoFocus={true} className=\\"sc-ifAKCX cFlEyZ add-pairing-board-input\\" type=\\"text\\" onChange={[Function]} onKeyPress={[Function: onKeyPress]} value={[undefined]} />
                     </StyledComponent>
                   </styled.input>
                   <div className=\\"actions\\">
@@ -36,9 +36,9 @@ exports[`Modal should render the \`AddPairingBoard\` component 1`] = `
                         </button>
                       </StyledComponent>
                     </styled.button>
-                    <styled.button onClick={[Function: mockConstructor]} className=\\"ui button cancel-adding-teammate-button\\">
-                      <StyledComponent onClick={[Function: mockConstructor]} className=\\"ui button cancel-adding-teammate-button\\" forwardedComponent={{...}} forwardedRef={{...}}>
-                        <button onClick={[Function: mockConstructor]} className=\\"sc-EHOje jvzENE ui button cancel-adding-teammate-button\\">
+                    <styled.button onClick={[Function: mockConstructor]} className=\\"ui button cancel-adding-pairing-board-button\\">
+                      <StyledComponent onClick={[Function: mockConstructor]} className=\\"ui button cancel-adding-pairing-board-button\\" forwardedComponent={{...}} forwardedRef={{...}}>
+                        <button onClick={[Function: mockConstructor]} className=\\"sc-EHOje jvzENE ui button cancel-adding-pairing-board-button\\">
                           Cancel
                         </button>
                       </StyledComponent>
@@ -78,9 +78,9 @@ exports[`Modal should render the \`AddTeammate\` component 1`] = `
                       </div>
                     </StyledComponent>
                   </styled.div>
-                  <styled.input className=\\"add-teammate-input\\" type=\\"text\\" onChange={[Function]} value=\\"\\">
-                    <StyledComponent className=\\"add-teammate-input\\" type=\\"text\\" onChange={[Function]} value=\\"\\" forwardedComponent={{...}} forwardedRef={{...}}>
-                      <input className=\\"sc-iwsKbI jQhHGA add-teammate-input\\" type=\\"text\\" onChange={[Function]} value=\\"\\" />
+                  <styled.input autoFocus={true} className=\\"add-teammate-input\\" type=\\"text\\" onChange={[Function]} onKeyPress={[Function: onKeyPress]} value=\\"\\">
+                    <StyledComponent autoFocus={true} className=\\"add-teammate-input\\" type=\\"text\\" onChange={[Function]} onKeyPress={[Function: onKeyPress]} value=\\"\\" forwardedComponent={{...}} forwardedRef={{...}}>
+                      <input autoFocus={true} className=\\"sc-iwsKbI jQhHGA add-teammate-input\\" type=\\"text\\" onChange={[Function]} onKeyPress={[Function: onKeyPress]} value=\\"\\" />
                     </StyledComponent>
                   </styled.input>
                   <div className=\\"actions\\">

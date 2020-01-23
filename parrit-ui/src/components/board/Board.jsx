@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import _ from 'lodash';
 import ItemTypes from "../../constants/ItemTypes";
-import {updatePairingBoardAndTeammates, deletePairingBoard} from "../actions";
+import {deletePairingBoard, updatePairingBoardAndTeammates, updatePairingBoardTitle} from "../actions";
 import styled from 'styled-components';
 import Teammate from "../teammate/Teammate";
 import Button from "../button/Button";
@@ -26,8 +25,11 @@ border: 1px solid red;
 
 export const Board = (props) => {
 
-    const {deletePairingBoard: deletePairingBoardREDUX, listOfTeammatesREDUX, updatePairingBoardAndTeammates: updatePairingBoardAndTeammatesREDUX, pairingBoard} = props;
+    const {deletePairingBoard: deletePairingBoardREDUX, listOfTeammatesREDUX, numberOfPairingBoards, pairingBoard, updatePairingBoardTitle: updatePairingBoardTitleREDUX, updatePairingBoardAndTeammates: updatePairingBoardAndTeammatesREDUX} = props;
     const [isShown, setIsShown] = useState(false);
+    const [isTitleBeingEdited, setIsTitleBeingEdited] = useState(false);
+    const [boardTitle, editBoardTitle] = useState('');
+
 
     const [, drop] = useDrop({
         accept: ItemTypes.TEAMMATE,
@@ -37,17 +39,49 @@ export const Board = (props) => {
         }
     });
 
+    //TODO: Test this function
+    function onInputChange(event) {
+        editBoardTitle(event.target.value);
+    }
+
     function deletePairingBoard() {
         deletePairingBoardREDUX(pairingBoard);
+    }
+
+    //TODO: TEST INPUT
+    function pairingBoardTitle() {
+        return isTitleBeingEdited ? <input autoFocus type="text"
+                                           value={boardTitle} onChange={onInputChange}
+                                           onKeyPress={event => {
+                                               if (event.key === "Enter") {
+                                                   if (boardTitle !== '') {
+                                                       setIsTitleBeingEdited(false);
+                                                       updatePairingBoardTitleREDUX({
+                                                           id: pairingBoard.id,
+                                                           title: boardTitle
+                                                       });
+                                                   }
+                                               }
+                                           }}/>
+            : <p style={{border: "1px solid blue"}}>{pairingBoard.title}</p>
+    }
+
+    function renderBoardOptions() {
+        return isShown ? (
+            <React.Fragment>
+                <Button onClick={() => setIsTitleBeingEdited(true)} text="E" className="Temp"/>
+                {numberOfPairingBoards > 1 &&
+                <Button onClick={() => deletePairingBoard()} text="X" className="Temp"/>
+                }
+            </React.Fragment>
+        ) : null
     }
 
     return (
         <BoardContainer ref={drop} onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)}>
             <BoardHeaderContainer>
-                <p style={{border: "1px solid blue"}}>{props.pairingBoard.title}</p>
-                {isShown && _.isEmpty(pairingBoard.teammates) &&
-                    <Button onClick={() => deletePairingBoard()} text="X" className="Temp"/>
-                }
+                {pairingBoardTitle()}
+                {renderBoardOptions()}
             </BoardHeaderContainer>
             {pairingBoard.teammates.length > 0 && pairingBoard.teammates.map(people => <Teammate
                 key={people.id} teammate={people}/>)}
@@ -58,7 +92,8 @@ export const Board = (props) => {
 Board.propTypes = {
     deletePairingBoard: PropTypes.func.isRequired,
     listOfTeammatesREDUX: PropTypes.array.isRequired,
-    updatePairingBoardAndTeammates: PropTypes.func.isRequired
+    updatePairingBoardAndTeammates: PropTypes.func.isRequired,
+    updatePairingBoardTitle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -68,5 +103,8 @@ const mapStateToProps = (state) => {
 };
 
 
-
-export default connect(mapStateToProps, {updatePairingBoardAndTeammates, deletePairingBoard })(Board);
+export default connect(mapStateToProps, {
+    deletePairingBoard,
+    updatePairingBoardTitle,
+    updatePairingBoardAndTeammates
+})(Board);

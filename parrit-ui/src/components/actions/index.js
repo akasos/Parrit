@@ -55,6 +55,15 @@ export const updatePairingBoardAndTeammates = (pairingBoard, teammate) => async 
     }
 };
 
+export const updatePairingBoardTitle = (pairingBoard) => async dispatch => {
+    const tempPairingBoard = {
+        id: pairingBoard.id,
+        title: pairingBoard.title,
+    };
+    const {data: updatedPairingBoard} = await api.put(`/pairingboards/${tempPairingBoard.id}`, tempPairingBoard);
+    dispatch(actionUpdatePairingBoard(updatedPairingBoard));
+};
+
 export const moveTeammateFromPairingBoardToFloatingParrits = (teammate) => async dispatch => {
     const pairingBoardId = teammate.pairingBoard;
     delete teammate.pairingBoard;

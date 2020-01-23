@@ -213,6 +213,30 @@ describe("async actions", () => {
     });
 
 
+    it('dispatch `UPDATE_PAIRING_BOARD` when updatePairingBoardTitle is done', () => {
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: {"id": 1, "title": "Area 51"}
+            });
+        });
+        const pairingBoard = {id: 1, title: "Area 51"};
+        const expectedActions = [{
+            type: actionTypes.UPDATE_PAIRING_BOARD,
+            payload: {id: 1, title: "Area 51"}
+        }];
+
+        const store = mockStore();
+
+        return store.dispatch(actions.updatePairingBoardTitle(pairingBoard)).then(() => {
+                // return of async actions
+                expect(store.getActions()).toEqual(expectedActions);
+            }
+        );
+
+    });
+
     it('dispatch `UPDATE_TEAMMATE` && `REMOVE_TEAMMATE_FROM_PAIRING_BOARD` when moveTeammateFromPairingBoardToFloatingParrits is done', () => {
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
@@ -273,4 +297,5 @@ describe("async actions", () => {
             expect(store.getActions()).toEqual(expectedActions)
         });
     });
-});
+})
+;

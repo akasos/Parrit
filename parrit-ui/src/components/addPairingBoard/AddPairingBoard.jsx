@@ -27,9 +27,12 @@ export class AddPairingBoard extends Component {
     };
 
     addPairingBoard() {
-    this.props.addPairingBoard(this.state);
-    this.props.cancel();
+        if (this.state.title !== '') {
+            this.props.addPairingBoard(this.state);
+            this.props.cancel();
+        }
     };
+
 
     render() {
         const {cancel} = this.props;
@@ -39,12 +42,20 @@ export class AddPairingBoard extends Component {
                 <AddPairingBoardContainer onClick={(event) => event.stopPropagation()}
                                           className="ui standard modal visible active">
                     <TitleWrapper><Title>Add Pairing Board</Title></TitleWrapper>
-                    <AddPairingBoardInput className="add-pairing-board-input" type="text" onChange={this.onInputChange}
+                    <AddPairingBoardInput autoFocus className="add-pairing-board-input" type="text"
+                                          onChange={this.onInputChange}
+                                          onKeyPress={event => {
+                                              if (event.key === "Enter") {
+                                                  this.onInputChange(event);
+                                                  this.addPairingBoard();
+                                              }
+                                          }}
                                           value={this.state.name}/>
                     <div className="actions">
                         <Button onClick={this.addPairingBoard}
                                 className="ui primary button add-pairing-board-button">Ok</Button>
-                        <Button onClick={cancel} className="ui button cancel-adding-teammate-button">Cancel</Button>
+                        <Button onClick={cancel}
+                                className="ui button cancel-adding-pairing-board-button">Cancel</Button>
                     </div>
                 </AddPairingBoardContainer>
             </ModalContainer>

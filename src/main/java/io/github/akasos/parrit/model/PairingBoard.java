@@ -20,7 +20,7 @@ public class PairingBoard {
     private Long id;
 
     @NonNull
-    @Size(max = 15)
+    @Size(max = 35)
     @Column(unique = true)
     private String title;
 
