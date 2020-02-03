@@ -1,6 +1,6 @@
 # Parrit
 So this application is an exact spin off of an already existing application called 'Parrit', which is a pair rotation management web app,
-that pairs members of a team together for those teams that practice pair programming.
+that pairs members on a team together for those teams that practice pair programming.
 
 you can check it out at: http://parrit.cfapps.io/
 
