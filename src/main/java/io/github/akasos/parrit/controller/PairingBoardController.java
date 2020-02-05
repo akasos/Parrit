@@ -59,6 +59,7 @@ public class PairingBoardController {
     @DeleteMapping("/{pairingBoardId}")
     public ResponseEntity<?> deletePairingBoard(@PathVariable Long pairingBoardId) {
         return pairingBoardRepository.findById(pairingBoardId).map(pairingBoard -> {
+            pairingBoard.removeTeammates();
             pairingBoardRepository.delete(pairingBoard);
             return ResponseEntity.ok().build();
         }).orElseThrow(() -> new ResourceNotFoundException("PairingBoardId " + pairingBoardId + " not found"));

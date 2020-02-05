@@ -33,12 +33,27 @@ describe('Reducers', () => {
             expect(listOfTeammates(actual, action)).toEqual(expected);
         });
 
-        it('should update a teammate when un-assigned to a pairing board', () =>{
+        it('should update a teammate when un-assigned to a pairing board', () => {
             const action = {type: actionTypes.UPDATE_TEAMMATE, payload: {id: 1, name: "Austin", pairingBoard: null}};
             const actual = [{id: 1, name: 'Austin', pairingBoard: 1}];
-            const expected = [{id: 1, name: 'Austin', pairingBoard: null}]
+            const expected = [{id: 1, name: 'Austin', pairingBoard: null}];
             expect(listOfTeammates(actual, action)).toEqual(expected);
 
+        });
+
+        it('should update the [] of teammates whenever a pairing board that has teammates assigned to it is deleted', () => {
+            const action = {type: actionTypes.UPDATE_TEAMMATES, payload: [{id: 2, name: "Skyler", pairingBoard: null}]};
+            const actual = [{id: 1, name: "Austin", pairingBoard: 1}, {id: 2, name: "Skyler", pairingBoard: 2}, {
+                id: 3,
+                name: "Zack",
+                pairingBoard: 3
+            }];
+            const expected = [{id: 1, name: "Austin", pairingBoard: 1}, {
+                id: 2,
+                name: "Skyler",
+                pairingBoard: null
+            }, {id: 3, name: "Zack", pairingBoard: 3}];
+            expect(listOfTeammates(actual, action)).toEqual(expected);
         });
 
         it('should delete a teammate from the []', () => {
@@ -65,7 +80,7 @@ describe('Reducers', () => {
 
         it('should add a pairingBoard to the []', () => {
             const action = {type: actionTypes.ADD_PAIRING_BOARD, payload: {id: 2, title: "Area 51", teammates: []}};
-            const actual = [{id: 1, title: "Moon Base", teammates: [{id: 1, name: "Austin", paringBoard: 1}]}]
+            const actual = [{id: 1, title: "Moon Base", teammates: [{id: 1, name: "Austin", paringBoard: 1}]}];
             const expected = [{
                 id: 1,
                 title: "Moon Base",

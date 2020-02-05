@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as actionTypes from "../../constants/ActionTypes";
 import api from '../../api';
 
@@ -33,6 +34,11 @@ export const addPairingBoard = (newPairingBoard) => async dispatch => {
 
 export const deletePairingBoard = (pairingBoard) => async dispatch => {
     await api.delete(`/pairingboards/${pairingBoard.id}`);
+    const teammates = _.cloneDeep(pairingBoard.teammates);
+    if (teammates.length > 0) {
+        teammates.forEach(teammate => teammate.pairingBoard = null);
+        dispatch(actionUpdateTeammates(teammates));
+    }
     dispatch(actionDeletePairingBoard(pairingBoard));
 };
 
@@ -94,11 +100,17 @@ function actionAddTeammate(teammate = {}) {
     }
 }
 
-
 export function actionUpdateTeammate(teammate) {
     return {
         type: actionTypes.UPDATE_TEAMMATE,
         payload: teammate
+    }
+}
+
+function actionUpdateTeammates(teammates) {
+    return {
+        type: actionTypes.UPDATE_TEAMMATES,
+        payload: teammates
     }
 }
 

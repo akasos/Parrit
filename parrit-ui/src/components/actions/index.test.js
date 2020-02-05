@@ -136,18 +136,27 @@ describe("async actions", () => {
 
     });
 
-    it('dispatch `DELETE_PAIRING_BOARD` when deleting board is done', () => {
+    it('dispatch `DELETE_PAIRING_BOARD` && `UPDATE_TEAMMATES` when deleting board is done', () => {
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith({
                 status: 200
             })
         });
-        const deletedPairingBoard = {id: 1, title: "The Moon Base", teammates: []};
-        const expectedActions = [{
-            type: actionTypes.DELETE_PAIRING_BOARD,
-            payload: {id: 1, title: "The Moon Base", teammates: []}
-        }];
+        const deletedPairingBoard = {
+            id: 1,
+            title: "The Moon Base",
+            teammates: [{id: 1, name: "Austin", pairingBoard: 1}]
+        };
+        const expectedActions = [
+            {
+                type: actionTypes.UPDATE_TEAMMATES,
+                payload: [{id: 1, name: "Austin", pairingBoard: null}]
+            },
+            {
+                type: actionTypes.DELETE_PAIRING_BOARD,
+                payload: {id: 1, title: "The Moon Base", teammates: [{id: 1, name: "Austin", pairingBoard: 1}]}
+            }];
 
         const store = mockStore();
         return store.dispatch(actions.deletePairingBoard(deletedPairingBoard)).then(() => {

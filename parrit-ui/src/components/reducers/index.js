@@ -11,6 +11,15 @@ export const listOfTeammates = (state = [], action) => {
             return [...state, action.payload];
         case actionTypes.UPDATE_TEAMMATE:
             return state.map(teammate => teammate.id !== action.payload.id ? teammate : action.payload);
+        case actionTypes.UPDATE_TEAMMATES:
+            return state.map(teammate => {
+                for (let i = 0; i < action.payload.length; i++) {
+                    if (teammate.id === action.payload[i].id) {
+                        teammate = action.payload[i];
+                    }
+                }
+                return teammate
+            });
         case actionTypes.DELETE_TEAMMATE:
             return state.filter(teammate => teammate.id !== action.payload.id);
         default:

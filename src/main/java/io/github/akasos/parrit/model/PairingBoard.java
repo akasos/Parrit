@@ -24,18 +24,26 @@ public class PairingBoard {
     @Column(unique = true)
     private String title;
 
-    @OneToMany(mappedBy = "pairingBoard", cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH}, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "pairingBoard", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private List<Person> teammates = new ArrayList<>();
 
-    public void addTeammate(Person person){
+    public void addTeammate(Person person) {
         this.teammates.add(person);
         person.setPairingBoard(this);
     }
 
-    public void removeTeammate(Person person){
+    public void removeTeammate(Person person) {
         this.teammates.remove(person);
         person.setPairingBoard(null);
     }
 
+    public void removeTeammates() {
+        if (!this.teammates.isEmpty()) {
+            List<Person> teammates = new ArrayList<>(this.teammates);
+            for (Person teammate : teammates) {
+                removeTeammate(teammate);
+            }
+        }
+    }
 }
