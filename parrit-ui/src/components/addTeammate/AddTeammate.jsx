@@ -16,10 +16,25 @@ export class AddTeammate extends Component {
     constructor(props) {
         super(props);
         this.addTeammate = this.addTeammate.bind(this);
+        this.escFunction = this.escFunction.bind(this);
     }
     state = {
         name: ''
     };
+
+    escFunction(event){
+        const {cancel} = this.props;
+        if(event.keyCode === 27) {
+            cancel();
+        }
+    }
+
+    componentDidMount(){
+        document.addEventListener("keydown", this.escFunction, false);
+    }
+    componentWillUnmount(){
+        document.removeEventListener("keydown", this.escFunction, false);
+    }
 
     onInputChange = (event) => {
         this.setState({name: event.target.value});

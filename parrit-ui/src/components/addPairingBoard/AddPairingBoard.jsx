@@ -16,6 +16,19 @@ export class AddPairingBoard extends Component {
     constructor(props) {
         super(props);
         this.addPairingBoard = this.addPairingBoard.bind(this);
+        this.escFunction = this.escFunction.bind(this);
+    }
+    escFunction(event){
+        const {cancel} = this.props;
+        if(event.keyCode === 27) {
+            cancel();
+        }
+    }
+    componentDidMount(){
+        document.addEventListener("keydown", this.escFunction, false);
+    }
+    componentWillUnmount(){
+        document.removeEventListener("keydown", this.escFunction, false);
     }
 
     state = {
@@ -38,7 +51,12 @@ export class AddPairingBoard extends Component {
         const {cancel} = this.props;
         return (
             <ModalContainer data-testid="test" className="ui dimmer modals visible active modal-container"
-                            onClick={cancel}>
+                            onClick={cancel} onKeyPress={event => {
+                                console.log("hello");
+                                if(event.key === "Esc"){
+                                    cancel();
+                                }
+            }}>
                 <AddPairingBoardContainer onClick={(event) => event.stopPropagation()}
                                           className="ui standard modal visible active">
                     <TitleWrapper><Title>Add Pairing Board</Title></TitleWrapper>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect } from 'react';
 import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
@@ -28,7 +28,7 @@ export const Board = (props) => {
     const {deletePairingBoard: deletePairingBoardREDUX, listOfTeammatesREDUX, numberOfPairingBoards, pairingBoard, updatePairingBoardTitle: updatePairingBoardTitleREDUX, updatePairingBoardAndTeammates: updatePairingBoardAndTeammatesREDUX} = props;
     const [isShown, setIsShown] = useState(false);
     const [isTitleBeingEdited, setIsTitleBeingEdited] = useState(false);
-    const [boardTitle, editBoardTitle] = useState('');
+    const [boardTitle, editBoardTitle] = useState(pairingBoard.title);
 
 
     const [, drop] = useDrop({
@@ -38,6 +38,32 @@ export const Board = (props) => {
             updatePairingBoardAndTeammatesREDUX(pairingBoard, teammate);
         }
     });
+
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
+
+    function useOutsideAlerter(ref) {
+        function handleClickOutside(event) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                if (boardTitle !== '') {
+                    setIsTitleBeingEdited(false);
+                    updatePairingBoardTitleREDUX({
+                        id: pairingBoard.id,
+                        title: boardTitle
+                    });
+                    setIsTitleBeingEdited(false);
+                }
+            }
+        }
+        useEffect(() => {
+            // Bind the event listener
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                // Unbind the event listener on clean up
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        });
+    }
 
     //TODO: Test this function
     function onInputChange(event) {
@@ -50,7 +76,7 @@ export const Board = (props) => {
 
     //TODO: TEST INPUT
     function pairingBoardTitle() {
-        return isTitleBeingEdited ? <input autoFocus type="text"
+        return isTitleBeingEdited ? <input ref={wrapperRef} autoFocus type="text"
                                            value={boardTitle} onChange={onInputChange}
                                            onKeyPress={event => {
                                                if (event.key === "Enter") {
