@@ -1,6 +1,6 @@
 package io.github.akasos.parrit.contoller;
 
-import io.github.akasos.parrit.controller.ProjectInfoController;
+import io.github.akasos.parrit.controller.ProjectController;
 import io.github.akasos.parrit.dao.PairingBoardRepository;
 import io.github.akasos.parrit.dao.PersonRepository;
 import io.github.akasos.parrit.model.PairingBoard;
@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ProjectInfoController.class)
-public class ProjectInfoControllerTest {
+@WebMvcTest(ProjectController.class)
+public class ProjectControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

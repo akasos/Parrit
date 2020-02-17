@@ -27,6 +27,15 @@ export const listOfTeammates = (state = [], action) => {
     }
 };
 
+export const projectInfo = (state = {}, action) => {
+    switch(action.type){
+        case actionTypes.LOAD_PROJECT_INFO:
+            return action.payload;
+        default:
+            return state;
+    }
+};
+
 export const listOfPairingBoards = (state = [], action) => {
     switch (action.type) {
         case actionTypes.LIST_OF_PAIRING_BOARDS:
@@ -55,6 +64,7 @@ export const listOfPairingBoards = (state = [], action) => {
 
 export default combineReducers({
     listOfTeammates,
-    listOfPairingBoards
+    listOfPairingBoards,
+    projectInfo
 })
 

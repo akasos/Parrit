@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = PairingBoardController.class)
-public class PairingBoardControllerTest {
+public class PairingBoardDTOControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

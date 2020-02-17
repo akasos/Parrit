@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -28,4 +29,18 @@ public class Person {
     @JsonIdentityReference(alwaysAsId = true)
     private PairingBoard pairingBoard;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(id, person.id) &&
+                Objects.equals(name, person.name) &&
+                Objects.equals(pairingBoard, person.pairingBoard);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, pairingBoard);
+    }
 }

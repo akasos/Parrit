@@ -10,7 +10,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "pairing_board")
 public class PairingBoard {
@@ -27,6 +26,11 @@ public class PairingBoard {
     @OneToMany(mappedBy = "pairingBoard", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private List<Person> teammates = new ArrayList<>();
+
+    public PairingBoard(String title, List<Person> teammatesList){
+        this.title = title;
+        this.teammates = teammatesList;
+    }
 
     public void addTeammate(Person person) {
         this.teammates.add(person);
@@ -46,4 +50,5 @@ public class PairingBoard {
             }
         }
     }
+
 }

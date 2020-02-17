@@ -8,13 +8,14 @@ export const fetchTeammates = () => async dispatch => {
 };
 
 export const fetchProjectInfo = () => async dispatch => {
-    const response = await api.get("/projectinfo");
-    dispatch(actionGetAllTeammates(response.data.teammateList));
-    dispatch(actionGetAllPairingBoards(response.data.pairingBoardList));
+    const response = await api.get("/projectinfo/2");
+    dispatch(actionGetProjectInfo(response.data));
+    // dispatch(actionGetAllTeammates(response.data.teammateList));
+    // dispatch(actionGetAllPairingBoards(response.data.pairingBoardList));
 };
 
 export const addTeammate = (newTeammate) => async dispatch => {
-    const response = await api.post("/teammates", newTeammate);
+    const response = await api.post(`/teammates/`, newTeammate);
     dispatch(actionAddTeammate(response.data));
 
 };
@@ -153,5 +154,12 @@ function actionDeleteTeammate(teammate) {
     return {
         type: actionTypes.DELETE_TEAMMATE,
         payload: teammate
+    }
+}
+
+function actionGetProjectInfo(projectInfo){
+    return {
+        type: actionTypes.LOAD_PROJECT_INFO,
+        payload: projectInfo
     }
 }
