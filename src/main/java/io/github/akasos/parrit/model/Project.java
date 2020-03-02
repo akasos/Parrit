@@ -3,6 +3,7 @@ package io.github.akasos.parrit.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,11 +28,11 @@ public class Project {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", nullable = false)
-    private List<PairingBoard> pairingBoardList;
+    private List<PairingBoard> pairingBoardList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", nullable = false)
-    private List<Person> teammateList;
+    private List<Person> teammateList = new ArrayList<>();
 
     public Project(String name, String password, List<PairingBoard> pairingBoardList, List<Person> teammateList){
         this.name = name;

@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import styled from 'styled-components'
 import {Title} from '../../styles/Title'
 import {ButtonContainer} from "../../styles/ButtonContainer";
@@ -64,7 +65,7 @@ PairingBoards.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        listOfPairingBoardsREDUX: state.listOfPairingBoards
+        listOfPairingBoardsREDUX: _.isEmpty(state.project) ? [] : state.project['pairingBoards']
     }
 };
 

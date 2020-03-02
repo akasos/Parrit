@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import style from "styled-components";
-import {addPairingBoard} from "../actions";
+import {createPairingBoard} from "../actions";
 
 const ModalContainer = style.div``;
 const AddPairingBoardContainer = style.div``;
@@ -41,7 +41,7 @@ export class AddPairingBoard extends Component {
 
     addPairingBoard() {
         if (this.state.title !== '') {
-            this.props.addPairingBoard(this.state);
+            this.props.createPairingBoard(this.props.projectId, this.state);
             this.props.cancel();
         }
     };
@@ -84,7 +84,14 @@ export class AddPairingBoard extends Component {
 
 AddPairingBoard.propTypes = {
     cancel: PropTypes.func.isRequired,
-    addPairingBoard: PropTypes.func.isRequired
+    addPairingBoard: PropTypes.func.isRequired,
+    projectId: PropTypes.number.isRequired
 };
 
-export default connect(null, {addPairingBoard})(AddPairingBoard);
+const mapStateToProps = state => {
+    return {
+        projectId: state.project['id']
+    }
+};
+
+export default connect(mapStateToProps, {createPairingBoard})(AddPairingBoard);

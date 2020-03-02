@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
-import {addTeammate} from "../actions";
+import {createPerson} from "../actions";
 import style from 'styled-components'
 
 const ModalContainer = style.div``;
@@ -42,7 +42,7 @@ export class AddTeammate extends Component {
 
     addTeammate() {
         if (this.state.name !== '') {
-            this.props.addTeammate(this.state);
+            this.props.createPerson( this.props.projectId, this.state);
             this.props.cancel();
         }
     };
@@ -75,7 +75,14 @@ export class AddTeammate extends Component {
 
 AddTeammate.propTypes = {
     cancel: PropTypes.func.isRequired,
-    addTeammate: PropTypes.func.isRequired
+    addTeammate: PropTypes.func.isRequired,
+    projectId: PropTypes.number.isRequired
 };
 
-export default connect(null, { addTeammate })(AddTeammate);
+const mapStateToProps = (state) => {
+  return {
+      projectId: state.project['id']
+  }
+};
+
+export default connect(mapStateToProps, { createPerson })(AddTeammate);

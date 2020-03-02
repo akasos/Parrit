@@ -2,7 +2,6 @@ import _ from "lodash";
 import {combineReducers} from "redux";
 import * as actionTypes from '../../constants/ActionTypes'
 
-
 export const listOfTeammates = (state = [], action) => {
     switch (action.type) {
         case actionTypes.LIST_OF_TEAMMATES:
@@ -27,9 +26,9 @@ export const listOfTeammates = (state = [], action) => {
     }
 };
 
-export const projectInfo = (state = {}, action) => {
+export const project = (state = {}, action) => {
     switch(action.type){
-        case actionTypes.LOAD_PROJECT_INFO:
+        case actionTypes.LOAD_PROJECT:
             return action.payload;
         default:
             return state;
@@ -65,6 +64,6 @@ export const listOfPairingBoards = (state = [], action) => {
 export default combineReducers({
     listOfTeammates,
     listOfPairingBoards,
-    projectInfo
+    project
 })
 

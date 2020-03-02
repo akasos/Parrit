@@ -16,25 +16,20 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/api/project", produces = MediaType.APPLICATION_JSON_VALUE)
-public class TeammateController {
+public class PersonController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final ProjectRepository projectInfoRepository;
+    private final ProjectRepository projectRepository;
 
-    public TeammateController(ProjectRepository projectInfoRepository) {
-        this.projectInfoRepository = projectInfoRepository;
+    public PersonController(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<Person>> getAllTeammates() {
-//        return ResponseEntity.ok().body(personRepository.findAll()    );
-//    }
-
     @PostMapping(path="/{projectId}/person")
-    public ResponseEntity<ProjectDTO> createTeammate(@PathVariable Long projectId, @Valid @RequestBody Person person) {
-        Project project = projectInfoRepository.findById(projectId).get();
+    public ResponseEntity<ProjectDTO> createPerson(@PathVariable Long projectId, @Valid @RequestBody Person person) {
+        Project project = projectRepository.findById(projectId).get();
         project.getTeammateList().add(person);
-        Project updatedProject = projectInfoRepository.save(project);
+        Project updatedProject = projectRepository.save(project);
         return ResponseEntity.created(URI.create("/person/" + person.getName().replaceAll("\\s+",""))).body(ProjectTransformer.transform(updatedProject));
     }
 
@@ -47,11 +42,10 @@ public class TeammateController {
 //        return ResponseEntity.ok().body(personRepository.save(person));
 //    }
 //
-//    @DeleteMapping(value = "/{teammateId}")
-//    public ResponseEntity<?> deleteTeammate(@PathVariable Long teammateId) {
-//        return personRepository.findById(teammateId).map(teammate -> {
-//            personRepository.delete(teammate);
-//            return ResponseEntity.ok().build();
-//        }).orElseThrow(() -> new ResourceNotFoundException("TeammateId " + teammateId + " not found"));
+//    @DeleteMapping(value = "/{projectId}/person/{personId}")
+//    public ResponseEntity<ProjectDTO> deletePerson(@PathVariable Long projectId, @PathVariable Long personId) {
+//        personRepository.deleteById(personId);
+//        Project project = projectRepository.findById(projectId).get();
+//        return ResponseEntity.ok().body(ProjectTransformer.transform(project));
 //    }
 }

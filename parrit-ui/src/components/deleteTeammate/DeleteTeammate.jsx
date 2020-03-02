@@ -2,7 +2,7 @@ import React from 'react';
 import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import {deleteTeammate} from '../actions';
+import {deletePerson} from '../actions';
 import styled from 'styled-components';
 import ItemTypes from "../../constants/ItemTypes";
 
@@ -14,13 +14,12 @@ background-color: blue;
 
 export const DeleteTeammate = (props) => {
 
-    const {deleteTeammateREDUX, listOfTeammatesREDUX} = props;
+    const {deletePersonREDUX, listOfPeopleREDUX, projectIdREDUX} = props;
 
     const [, drop] = useDrop({
         accept: ItemTypes.TEAMMATE,
         drop(item) {
-            const teammate = listOfTeammatesREDUX.find(teammate => teammate.id === item.id);
-            deleteTeammateREDUX(teammate);
+            deletePersonREDUX(projectIdREDUX, item.id);
         }
     });
     return (
@@ -31,18 +30,20 @@ export const DeleteTeammate = (props) => {
 };
 
 DeleteTeammate.propTypes = {
-  deleteTeammateREDUX: PropTypes.func.isRequired,
-  listOfTeammatesREDUX: PropTypes.array.isRequired
+    deletePersonREDUX: PropTypes.func.isRequired,
+    listOfPeopleREDUX: PropTypes.array.isRequired,
+    projectIdREDux: PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => {
     return {
-        listOfTeammatesREDUX: state.listOfTeammates
-    }
+        listOfPeopleREDUX: state.project['people'],
+        projectIdREDUX: state.project['id']
+}
 };
 
-const mapDispatchToProps =  {
-    deleteTeammateREDUX: deleteTeammate,
+const mapDispatchToProps = {
+    deletePersonREDUX: deletePerson,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteTeammate);

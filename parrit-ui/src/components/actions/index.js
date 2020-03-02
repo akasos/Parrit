@@ -2,35 +2,27 @@ import _ from 'lodash';
 import * as actionTypes from "../../constants/ActionTypes";
 import api from '../../api';
 
-export const fetchTeammates = () => async dispatch => {
-    const response = await api.get('/teammates');
-    dispatch(actionGetAllTeammates(response.data));
-};
 
-export const fetchProjectInfo = () => async dispatch => {
-    const response = await api.get("/projectinfo/2");
-    dispatch(actionGetProjectInfo(response.data));
+export const fetchProject = () => async dispatch => {
+    const response = await api.get("/project/Thanos");
+    dispatch(actionGetProject(response.data));
     // dispatch(actionGetAllTeammates(response.data.teammateList));
     // dispatch(actionGetAllPairingBoards(response.data.pairingBoardList));
 };
 
-export const addTeammate = (newTeammate) => async dispatch => {
-    const response = await api.post(`/teammates/`, newTeammate);
-    dispatch(actionAddTeammate(response.data));
+export const createPerson = (projectId, newTeammate) => async dispatch => {
+    const response = await api.post(`/project/${projectId}/person`, newTeammate);
+    dispatch(actionGetProject(response.data));
 
 };
-
-export const deleteTeammate = (teammate) => async dispatch => {
-    await api.delete(`/teammates/${teammate.id}`);
-    dispatch(actionDeleteTeammate(teammate));
-    if (teammate.pairingBoard !== null) {
-        dispatch(actionRemoveTeammateFromPairingBoard(teammate.pairingBoard, teammate.id));
-    }
+export const deletePerson = (projectId, personId) => async dispatch => {
+    const response = await api.delete(`/project/${projectId}/person/${personId}`);
+    dispatch(actionGetProject(response.data));
 };
 
-export const addPairingBoard = (newPairingBoard) => async dispatch => {
-    const response = await api.post('/pairingboards', newPairingBoard);
-    dispatch(actionAddPairingBoard(response.data));
+export const createPairingBoard = (projectId, newPairingBoard) => async dispatch => {
+    const response = await api.post(`/project/${projectId}/pairingboard`, newPairingBoard);
+    dispatch(actionGetProject(response.data));
 };
 
 export const deletePairingBoard = (pairingBoard) => async dispatch => {
@@ -122,9 +114,9 @@ function actionGetAllPairingBoards(pairingBoards = []) {
     }
 }
 
-function actionAddPairingBoard(pairingBoard = {}) {
+function actionCreatePairingBoard(pairingBoard = {}) {
     return {
-        type: actionTypes.ADD_PAIRING_BOARD,
+        type: actionTypes.LOAD_PROJECT,
         payload: pairingBoard
     }
 }
@@ -157,9 +149,9 @@ function actionDeleteTeammate(teammate) {
     }
 }
 
-function actionGetProjectInfo(projectInfo){
+function actionGetProject(projectInfo){
     return {
-        type: actionTypes.LOAD_PROJECT_INFO,
+        type: actionTypes.LOAD_PROJECT,
         payload: projectInfo
     }
 }

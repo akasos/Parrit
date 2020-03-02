@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
-import {fetchProjectInfo} from "../actions";
+import {fetchProject} from "../actions";
 import styled from 'styled-components'
 import FloatingParrits from "../floatingParrits/FloatingParrits";
 import Header from "../header/Header";
@@ -26,7 +26,7 @@ const WorkSpaceContainer = styled.div`
 export class App extends Component {
 
     async componentDidMount() {
-        this.props.fetchProjectInfo();
+        this.props.fetchProject();
     }
 
     render() {
@@ -46,7 +46,7 @@ export class App extends Component {
 }
 
 App.propTypes = {
-    fetchProjectInfo: PropTypes.func.isRequired,
+    fetchProject: PropTypes.func.isRequired,
 };
 
-export default connect(null, {fetchProjectInfo})(App);
+export default connect(null, {fetchProject})(App);

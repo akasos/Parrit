@@ -109,7 +109,7 @@ export const Board = (props) => {
                 {pairingBoardTitle()}
                 {renderBoardOptions()}
             </BoardHeaderContainer>
-            {pairingBoard.teammates.length > 0 && pairingBoard.teammates.map(people => <Teammate
+            {pairingBoard.personList.length > 0 && pairingBoard.personList.map(people => <Teammate
                 key={people.id} teammate={people}/>)}
         </BoardContainer>
     );
@@ -124,10 +124,9 @@ Board.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        listOfTeammatesREDUX: state.listOfTeammates
+        listOfTeammatesREDUX: state.project['people']
     }
 };
-
 
 export default connect(mapStateToProps, {
     deletePairingBoard,
