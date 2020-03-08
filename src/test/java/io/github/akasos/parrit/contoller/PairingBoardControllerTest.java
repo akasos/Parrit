@@ -95,24 +95,28 @@ public class PairingBoardControllerTest {
 //        assertEquals(response.getContentAsString(), expected);
 //
 //    }
-//
-//    @Test
-//    public void deletePairingBoard() throws Exception {
-//        PairingBoard pairingBoard = new PairingBoard("The Salt Mines");
-//        pairingBoard.setId(1L);
-//
-//        Mockito.when(pairingBoardRepository.findById(pairingBoard.getId())).thenReturn(Optional.of(pairingBoard));
-//        Mockito.doNothing().when(pairingBoardRepository).delete(pairingBoard);
-//
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .delete("/api/pairingboards/{pairingBoardId}", "1")
-//                .accept(MediaType.APPLICATION_JSON)
-//                .contentType(MediaType.APPLICATION_JSON);
-//
-//        MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
-//
-//        MockHttpServletResponse response = resultResponse.getResponse();
-//
-//        assertEquals(HttpStatus.OK.value(), response.getStatus());
-//    }
+
+    @Test
+    public void deletePairingBoard() throws Exception {
+
+        List<PairingBoard> pairingBoardList = new ArrayList<>();
+        List<Person> personList = new ArrayList<>();
+
+        PairingBoard pairingBoard = new PairingBoard("The Salt Mines");
+        pairingBoard.setId(1L);
+
+        Mockito.when(pairingBoardRepository.findById(pairingBoard.getId())).thenReturn(Optional.of(pairingBoard));
+        Mockito.doNothing().when(pairingBoardRepository).delete(pairingBoard);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete("/api/project/1/pairingBoard/1")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
+
+        MockHttpServletResponse response = resultResponse.getResponse();
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
 }

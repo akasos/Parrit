@@ -1,9 +1,9 @@
-import React, {useState, useRef, useEffect } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDrop} from 'react-dnd'
 import {connect} from 'react-redux';
 import * as PropTypes from 'prop-types';
 import ItemTypes from "../../constants/ItemTypes";
-import {deletePairingBoard, updatePairingBoardAndTeammates, updatePairingBoardTitle} from "../actions";
+import {deletePairingBoardAC, updatePairingBoard, updatePairingBoardTitle} from "../actions";
 import styled from 'styled-components';
 import Teammate from "../teammate/Teammate";
 import Button from "../button/Button";
@@ -25,7 +25,7 @@ border: 1px solid red;
 
 export const Board = (props) => {
 
-    const {deletePairingBoard: deletePairingBoardREDUX, listOfTeammatesREDUX, numberOfPairingBoards, pairingBoard, updatePairingBoardTitle: updatePairingBoardTitleREDUX, updatePairingBoardAndTeammates: updatePairingBoardAndTeammatesREDUX} = props;
+    const {deletePairingBoardAC, listOfTeammatesREDUX, numberOfPairingBoards, pairingBoard, projectIdREDUX, updatePairingBoardTitle: updatePairingBoardTitleREDUX, updatePairingBoard} = props;
     const [isShown, setIsShown] = useState(false);
     const [isTitleBeingEdited, setIsTitleBeingEdited] = useState(false);
     const [boardTitle, editBoardTitle] = useState(pairingBoard.title);
@@ -35,7 +35,7 @@ export const Board = (props) => {
         accept: ItemTypes.TEAMMATE,
         drop(item) {
             const teammate = listOfTeammatesREDUX.find(teammate => teammate.id === item.id);
-            updatePairingBoardAndTeammatesREDUX(pairingBoard, teammate);
+            updatePairingBoard(projectIdREDUX, pairingBoard.id, teammate.id);
         }
     });
 
@@ -71,7 +71,7 @@ export const Board = (props) => {
     }
 
     function deletePairingBoard() {
-        deletePairingBoardREDUX(pairingBoard);
+        deletePairingBoardAC(pairingBoard);
     }
 
     //TODO: TEST INPUT
@@ -89,7 +89,7 @@ export const Board = (props) => {
                                                    }
                                                }
                                            }}/>
-            : <p style={{border: "1px solid blue"}}>{pairingBoard.title}</p>
+            : <p style={{border: "1px solid blue"}}>{pairingBoard.name}</p>
     }
 
     function renderBoardOptions() {
@@ -117,19 +117,19 @@ export const Board = (props) => {
 
 Board.propTypes = {
     deletePairingBoard: PropTypes.func.isRequired,
-    listOfTeammatesREDUX: PropTypes.array.isRequired,
-    updatePairingBoardAndTeammates: PropTypes.func.isRequired,
+    listOfPeopleREDUX: PropTypes.array.isRequired,
+    updatePairingBoard: PropTypes.func.isRequired,
     updatePairingBoardTitle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
-        listOfTeammatesREDUX: state.project['people']
+        listOfPeopleREDUX: state.project['people'],
+        projectIdREDUX: state.project['id']
     }
 };
-
 export default connect(mapStateToProps, {
-    deletePairingBoard,
+    deletePairingBoardAC,
     updatePairingBoardTitle,
-    updatePairingBoardAndTeammates
+    updatePairingBoard
 })(Board);

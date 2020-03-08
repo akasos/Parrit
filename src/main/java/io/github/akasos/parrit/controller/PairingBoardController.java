@@ -2,6 +2,7 @@ package io.github.akasos.parrit.controller;
 
 import io.github.akasos.parrit.DTOs.ProjectDTO;
 import io.github.akasos.parrit.dao.ProjectRepository;
+import io.github.akasos.parrit.exception.ResourceNotFoundException;
 import io.github.akasos.parrit.model.PairingBoard;
 import io.github.akasos.parrit.model.Project;
 import io.github.akasos.parrit.transformers.ProjectTransformer;
@@ -34,16 +35,9 @@ public class PairingBoardController {
         return ResponseEntity.created(URI.create("/pairingboard/" + pairingBoard.getTitle().replaceAll("\\s+",""))).body(ProjectTransformer.transform(updatedProject));
     }
 
-//    @PutMapping(path = "/{pairingBoardId}")
-//    public ResponseEntity<PairingBoard> updatePairingBoard(@PathVariable Long pairingBoardId, @Valid @RequestBody PairingBoard pairingBoardRequest) {//        if(pairingBoardRequest.getTeammates().size() > 0){
-//        //            Long personId = pairingBoardRequest.getTeammates().get(0).getId();
-//        //            Person person = personRepository.findById(personId).get();
-//        //            if(person.getPairingBoard() != null) {
-//        //                PairingBoard tempPairingBoard = pairingBoardRepository.findById(person.getPairingBoard().getId()).get();`
-//        //                tempPairingBoard.removeTeammate(person);
-//        //                pairingBoardRepository.save(tempPairingBoard);
-//        //            }
-//        //        }
+//    @PutMapping(path = "/{pairingBoardId}/person/{personId}/person")
+//    public ResponseEntity<PairingBoard> updatePairingBoard(@PathVariable Long pairingBoardId, @PathVariable Long personId) {//        if(pairingBoardRequest.getTeammates().size() > 0){
+//
 //        return pairingBoardRepository.findById(pairingBoardId).map(pairingBoard -> {
 //            pairingBoard.setTitle(pairingBoardRequest.getTitle());
 //            for (Person teammate : pairingBoardRequest.getTeammates()) {
@@ -53,13 +47,9 @@ public class PairingBoardController {
 //            return ResponseEntity.ok().body(tempPairingBoard);
 //        }).orElseThrow(() -> new ResourceNotFoundException("PairingBoardId " + pairingBoardId + " not found"));
 //    }
-//
-//    @DeleteMapping("/{pairingBoardId}")
-//    public ResponseEntity<?> deletePairingBoard(@PathVariable Long pairingBoardId) {
-//        return pairingBoardRepository.findById(pairingBoardId).map(pairingBoard -> {
-//            pairingBoard.removeTeammates();
-//            pairingBoardRepository.delete(pairingBoard);
-//            return ResponseEntity.ok().build();
-//        }).orElseThrow(() -> new ResourceNotFoundException("PairingBoardId " + pairingBoardId + " not found"));
-//    }
+
+    @DeleteMapping("/{projectId}/pairingBoard/{pairingBoardId}")
+    public ResponseEntity<?> deletePairingBoard(@PathVariable Long projectId, @PathVariable Long pairingBoardId) {
+
+    }
 }

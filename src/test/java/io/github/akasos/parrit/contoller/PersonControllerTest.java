@@ -54,7 +54,6 @@ public class PersonControllerTest {
                 "\"pairingBoards\": []," +
                 "\"people\": [{\"id\": 1,\"name\":\"Austin\"}]" +
                 "}";
-
         String examplePersonJson ="{\"id\": 1, \"name\": \"Austin\"}";
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -71,23 +70,35 @@ public class PersonControllerTest {
 //        assertEquals("/api/add/1", response.getHeader(HttpHeaders.LOCATION));
     }
 
-//    @Test
-//    public void deleteTeammate() throws Exception {
-//        Person person = new Person("Austin");
-//        person.setId(1L);
-//
-//        Mockito.when(personRepository.findById(person.getId())).thenReturn(Optional.of(person));
-//        Mockito.doNothing().when(personRepository).delete(Mockito.any());
-//
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .delete("/api/teammates/{teammateId}", "1")
-//                .accept(MediaType.APPLICATION_JSON)
-//                .contentType(MediaType.APPLICATION_JSON);
-//
-//            MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
-//
-//            MockHttpServletResponse response = resultResponse.getResponse();
-//
-//            assertEquals(HttpStatus.OK.value(), response.getStatus());
-//    }
+    @Test
+    public void deletePerson() throws Exception {
+        List<PairingBoard> pairingBoardList = new ArrayList<>();
+        List<Person> personList = new ArrayList<>();
+        Person person = new Person("Austin");
+        person.setId(1L);
+        personList.add(person);
+        Project project = new Project("Minerva", "12345", pairingBoardList, personList);
+        project.setId(1L);
+
+        String expected = "{" +
+                "\"id\": 1,\"name\": \"Minerva\"," +
+                "\"pairingBoards\": []," +
+                "\"people\": []" +
+                "}";
+
+        Mockito.when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
+        Mockito.when(projectRepository.save(project)).thenReturn(project);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete("/api/project/1/person/1")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+            MvcResult resultResponse = mockMvc.perform(requestBuilder).andReturn();
+
+            MockHttpServletResponse response = resultResponse.getResponse();
+
+            assertEquals(HttpStatus.OK.value(), response.getStatus());
+            JSONAssert.assertEquals(expected, resultResponse.getResponse().getContentAsString(), false);
+    }
 }

@@ -5,7 +5,7 @@ import Modal from '../../Modal/modal';
 import AddTeammate from "../addTeammate/AddTeammate";
 import {Title} from "../../styles/Title";
 import {ButtonContainer} from "../../styles/ButtonContainer";
-import DeleteTeammate from "../deleteTeammate/DeleteTeammate";
+import DeleteTeammate from "../deleteTeammate/DeletePerson";
 import Teammates from "../teammates/Teammates";
 
 const FloatingParritsContainer = styled.div`

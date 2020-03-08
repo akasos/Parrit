@@ -26,11 +26,11 @@ public class Project {
     @Column
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "project_id", nullable = false)
     private List<PairingBoard> pairingBoardList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "project_id", nullable = false)
     private List<Person> teammateList = new ArrayList<>();
 

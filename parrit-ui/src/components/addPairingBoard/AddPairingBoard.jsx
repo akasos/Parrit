@@ -52,7 +52,6 @@ export class AddPairingBoard extends Component {
         return (
             <ModalContainer data-testid="test" className="ui dimmer modals visible active modal-container"
                             onClick={cancel} onKeyPress={event => {
-                                console.log("hello");
                                 if(event.key === "Esc"){
                                     cancel();
                                 }

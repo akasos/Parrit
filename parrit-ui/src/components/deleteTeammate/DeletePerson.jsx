@@ -12,14 +12,14 @@ height: 50px;
 background-color: blue;
 `;
 
-export const DeleteTeammate = (props) => {
+export const DeletePerson = (props) => {
 
-    const {deletePersonREDUX, listOfPeopleREDUX, projectIdREDUX} = props;
+    const {deletePersonREDUX, projectIdREDUX} = props;
 
     const [, drop] = useDrop({
         accept: ItemTypes.TEAMMATE,
         drop(item) {
-            deletePersonREDUX(projectIdREDUX, item.id);
+            deletePersonREDUX(projectIdREDUX, item.id)
         }
     });
     return (
@@ -29,15 +29,13 @@ export const DeleteTeammate = (props) => {
     );
 };
 
-DeleteTeammate.propTypes = {
+DeletePerson.propTypes = {
     deletePersonREDUX: PropTypes.func.isRequired,
-    listOfPeopleREDUX: PropTypes.array.isRequired,
     projectIdREDux: PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => {
     return {
-        listOfPeopleREDUX: state.project['people'],
         projectIdREDUX: state.project['id']
 }
 };
@@ -46,4 +44,4 @@ const mapDispatchToProps = {
     deletePersonREDUX: deletePerson,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteTeammate);
+export default connect(mapStateToProps, mapDispatchToProps)(DeletePerson);

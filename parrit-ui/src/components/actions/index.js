@@ -1,13 +1,12 @@
 import _ from 'lodash';
 import * as actionTypes from "../../constants/ActionTypes";
 import api from '../../api';
+import {project} from "../reducers";
 
 
 export const fetchProject = () => async dispatch => {
     const response = await api.get("/project/Thanos");
     dispatch(actionGetProject(response.data));
-    // dispatch(actionGetAllTeammates(response.data.teammateList));
-    // dispatch(actionGetAllPairingBoards(response.data.pairingBoardList));
 };
 
 export const createPerson = (projectId, newTeammate) => async dispatch => {
@@ -15,6 +14,7 @@ export const createPerson = (projectId, newTeammate) => async dispatch => {
     dispatch(actionGetProject(response.data));
 
 };
+
 export const deletePerson = (projectId, personId) => async dispatch => {
     const response = await api.delete(`/project/${projectId}/person/${personId}`);
     dispatch(actionGetProject(response.data));
@@ -25,7 +25,7 @@ export const createPairingBoard = (projectId, newPairingBoard) => async dispatch
     dispatch(actionGetProject(response.data));
 };
 
-export const deletePairingBoard = (pairingBoard) => async dispatch => {
+export const deletePairingBoardAC = (pairingBoard) => async dispatch => {
     await api.delete(`/pairingboards/${pairingBoard.id}`);
     const teammates = _.cloneDeep(pairingBoard.teammates);
     if (teammates.length > 0) {
@@ -35,23 +35,12 @@ export const deletePairingBoard = (pairingBoard) => async dispatch => {
     dispatch(actionDeletePairingBoard(pairingBoard));
 };
 
-export const updatePairingBoardAndTeammates = (pairingBoard, teammate) => async dispatch => {
-    const tempPairingBoard = {
-        id: pairingBoard.id,
-        title: pairingBoard.title,
-        teammates: [{id: teammate.id, name: teammate.name}]
+export const updatePairingBoard = (projectId, pairingBoardId, teammateId) => async dispatch => {
+    const pairingBoard = {
+        pairingBoardId
     };
-    const {data: updatedPairingBoard} = await api.put(`/pairingboards/${tempPairingBoard.id}`, tempPairingBoard);
-    dispatch(actionUpdatePairingBoard(updatedPairingBoard));
-    if (teammate.pairingBoard === null) {
-        teammate.pairingBoard = updatedPairingBoard.id;
-        dispatch(actionUpdateTeammate(teammate));
-    } else if (teammate.pairingBoard !== updatedPairingBoard.id) {
-        const previousPairingBoardId = teammate.pairingBoard;
-        teammate.pairingBoard = updatedPairingBoard.id;
-        dispatch(actionUpdateTeammate(teammate));
-        dispatch(actionRemoveTeammateFromPairingBoard(previousPairingBoardId, teammate.id));
-    }
+    const response = await api.put(`/project/${projectId}/person/${teammateId}/person`, pairingBoard);
+    dispatch(actionGetProject(response.data))
 };
 
 export const updatePairingBoardTitle = (pairingBoard) => async dispatch => {

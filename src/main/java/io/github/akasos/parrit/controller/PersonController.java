@@ -2,6 +2,8 @@ package io.github.akasos.parrit.controller;
 
 import io.github.akasos.parrit.DTOs.ProjectDTO;
 import io.github.akasos.parrit.dao.ProjectRepository;
+import io.github.akasos.parrit.exceptions.PersonNotFoundException;
+import io.github.akasos.parrit.model.PairingBoard;
 import io.github.akasos.parrit.model.Person;
 import io.github.akasos.parrit.model.Project;
 import io.github.akasos.parrit.transformers.ProjectTransformer;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/api/project", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,19 +37,26 @@ public class PersonController {
         return ResponseEntity.created(URI.create("/person/" + person.getName().replaceAll("\\s+",""))).body(ProjectTransformer.transform(updatedProject));
     }
 
-//    @PutMapping(path = "/{teammateId}")
-//    public ResponseEntity<Person> upDateTeammate(@PathVariable Long teammateId, @Valid @RequestBody Person person) {
-//        Optional<Person> newPerson = personRepository.findById(teammateId);
-//        if (!newPerson.isPresent()) {
-//            throw new ResourceNotFoundException("TeammateId " + teammateId + " not found");
-//        }
-//        return ResponseEntity.ok().body(personRepository.save(person));
+
+//    @PutMapping(path = "/{projectId}/person/{personId}/person")
+//    public ResponseEntity<ProjectDTO> moveTeammate(@PathVariable Long projectId, @PathVariable Long personId, @Valid @RequestBody PersonDTO personDTO) {
+//        Project project = projectRepository.findById(projectId).get();
+//        List<PairingBoard> pairingBoardList = project.getPairingBoardList();
+//        List<Person> personList = project.getTeammateList();
+//
+//
 //    }
 //
-//    @DeleteMapping(value = "/{projectId}/person/{personId}")
-//    public ResponseEntity<ProjectDTO> deletePerson(@PathVariable Long projectId, @PathVariable Long personId) {
-//        personRepository.deleteById(personId);
-//        Project project = projectRepository.findById(projectId).get();
-//        return ResponseEntity.ok().body(ProjectTransformer.transform(project));
-//    }
+    @DeleteMapping(path="/{projectId}/person/{personId}")
+    public ResponseEntity<ProjectDTO> deletePerson(@PathVariable Long projectId, @PathVariable Long personId) {
+        Project project = projectRepository.findById(projectId).get();
+        Stream<List<Person>> floatingPeople = Stream.of(project.getTeammateList());
+        Stream<List<Person>> pairingBoardPeople = project.getPairingBoardList().stream().map(PairingBoard::getTeammates);
+        List<Person> listWithPerson = Stream.concat(floatingPeople, pairingBoardPeople)
+                .filter(ppl -> ppl.stream().anyMatch(person -> person.getId() == personId)).findFirst()
+                .orElseThrow(() -> new PersonNotFoundException("That person does not exist"));
+        listWithPerson.removeIf(person -> person.getId() == personId);
+        Project updatedProject = projectRepository.save(project);
+        return ResponseEntity.ok().body(ProjectTransformer.transform(updatedProject));
+    }
 }
